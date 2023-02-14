@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.skypro.homework.dto.LoginReq;
-import ru.skypro.homework.dto.RegisterReq;
-import ru.skypro.homework.dto.Role;
+import ru.skypro.homework.dto.*;
 import ru.skypro.homework.service.AuthService;
 
 import static ru.skypro.homework.dto.Role.USER;
@@ -41,4 +39,6 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+
 }
