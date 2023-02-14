@@ -6,6 +6,7 @@ import ru.skypro.homework.dto.AdsDto;
 import ru.skypro.homework.dto.CommentsDto;
 
 @RestController
+@CrossOrigin(value = "http://localhost:3000")
 public class CommentsController {
 
     @PostMapping("/{ad_pk}/comments/{id}")
