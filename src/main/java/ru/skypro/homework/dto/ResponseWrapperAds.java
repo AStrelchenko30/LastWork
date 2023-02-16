@@ -7,6 +7,6 @@ import java.util.Arrays;
 @Data
 public class ResponseWrapperAds {
 
-    Integer count;
-    Arrays results;
+    private Integer count;
+    private Arrays results;
 }

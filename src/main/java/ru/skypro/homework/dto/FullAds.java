@@ -2,18 +2,18 @@ package ru.skypro.homework.dto;
 
 import lombok.Data;
 
-import java.lang.reflect.Array;
+import java.util.Arrays;
 
 @Data
 public class FullAds {
 
-    String authorFirstName;
-    String authorLastName;
-    String description;
-    String email;
-    Array image;
-    String phone;
-    Integer pk;
-    Integer price;
-    String title;
+    private String authorFirstName;
+    private  String authorLastName;
+    private String description;
+    private String email;
+    private Arrays image;
+    private String phone;
+    private Integer pk;
+    private Integer price;
+    private String title;
 }
