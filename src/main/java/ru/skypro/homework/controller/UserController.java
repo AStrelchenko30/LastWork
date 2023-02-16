@@ -10,19 +10,19 @@ import ru.skypro.homework.dto.UserDto;
 @CrossOrigin(value = "http://localhost:3000")
 public class UserController {
 
-    @PatchMapping("/patch")
-    public ResponseEntity <?> updateUser(@RequestBody UserDto userDto) {
+    @PatchMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestBody UserDto userDto) {
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/set_password")
-    public ResponseEntity <?> setPassword(@RequestBody NewPassword newPassword) {
+    public ResponseEntity<?> setPassword(@RequestBody NewPassword newPassword) {
         return ResponseEntity.ok().build();
     }
 
 
-    @PatchMapping("/get")
-   public ResponseEntity <?> getUser(@RequestBody UserDto user) {
+    @GetMapping("/get")
+    public ResponseEntity<?> getUser(@RequestBody UserDto user) {
         return ResponseEntity.ok().build();
     }
 

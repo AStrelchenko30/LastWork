@@ -17,24 +17,24 @@ public class CommentsController {
     }
 
 
-    @PostMapping("/get")
+    @GetMapping("/get")
     public ResponseEntity<?> getComments(@PathVariable String adPk, @RequestBody ResponseWrapperComment comment) {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/post")
+    @PostMapping("/add")
     public ResponseEntity<?> addComments (@PathVariable String adPk, @RequestBody CommentsDto commentsDto) {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/get/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<?> getComments(@PathVariable String adPk, @PathVariable Integer id) {
         return ResponseEntity.ok().build();
     }
 
 
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping ("/delete/{id}")
     public ResponseEntity<?> deleteComments (@PathVariable String adPk, @PathVariable Integer id) {
         return ResponseEntity.ok().build();
     }

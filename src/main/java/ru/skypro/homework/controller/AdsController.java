@@ -14,7 +14,7 @@ import ru.skypro.homework.dto.ResponseWrapperAds;
 @CrossOrigin(value = "http://localhost:3000")
 public class AdsController {
 
-    @PostMapping("/post")
+    @PostMapping("/add")
     public ResponseEntity<?> addAds(@RequestBody CreateAds req) {
         return ResponseEntity.ok().build();
     }
@@ -25,24 +25,21 @@ public class AdsController {
     }
 
 
-    @PostMapping("/getALLAds")
+    @GetMapping("/getALLAds")
     public ResponseEntity<?> getALLAds(@RequestBody ResponseWrapperAds req) {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/get/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<?> getFullAd (@PathVariable Integer id) {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/removeAds/{id}")
+    @DeleteMapping ("/removeAds/{id}")
     public ResponseEntity<?> removeAds (@PathVariable Integer id) {
         return ResponseEntity.ok().build();
     }
 
 
-    // @PostMapping("/me")
-    //public ResponseEntity<?> getAdsMeUsingGET (@Query boolean authenticated,) {
-      //  return ResponseEntity.ok().build();
-    //}
+
 }
