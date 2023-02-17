@@ -1,44 +1,74 @@
 package ru.skypro.homework.controller;
 
-import org.hibernate.annotations.Target;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import ru.skypro.homework.dto.AdsDto;
-import ru.skypro.homework.dto.CommentsDto;
-import ru.skypro.homework.dto.CreateAds;
-import ru.skypro.homework.dto.ResponseWrapperAds;
+import org.springframework.web.multipart.MultipartFile;
+import ru.skypro.homework.dto.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
+@CrossOrigin(value = "http://localhost:3000")
 @RestController
 @RequestMapping("/ads")
-@CrossOrigin(value = "http://localhost:3000")
 public class AdsController {
 
-    @PostMapping("/add")
-    public ResponseEntity<?> addAds(@RequestBody CreateAds req) {
+    @GetMapping
+    public ResponseEntity<?> getAllAds(@RequestParam(required = false) String title) {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/createAds/{id}")
-    public ResponseEntity<?> updateAds(@RequestBody CreateAds req, @PathVariable Integer id) {
+    @PostMapping()
+    public ResponseEntity<?> createAds(@RequestPart("properties") CreateAds ads, @RequestPart("image") MultipartFile photo) {
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping("/{ad_pk}/comments")
+    public ResponseEntity<?> getComments(@PathVariable(value = "ad_pk") String adPk) {
         return ResponseEntity.ok().build();
     }
 
-
-    @GetMapping("/getALLAds")
-    public ResponseEntity<?> getALLAds(@RequestBody ResponseWrapperAds req) {
+    @PostMapping("/{ad_pk}/comments")
+    public ResponseEntity<?> addAdsComment(@PathVariable(value = "ad_pk") String adPk,
+                                           @RequestBody CommentsDto comment) {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<?> getFullAd (@PathVariable Integer id) {
+    @GetMapping("/{id}")
+   public ResponseEntity<?> getFullAds(@PathVariable Integer id) {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping ("/removeAds/{id}")
-    public ResponseEntity<?> removeAds (@PathVariable Integer id) {
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateAds(@PathVariable Integer id,
+                                     @RequestBody CreateAds createAds) {
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<?> removeAds(@PathVariable Integer id) {
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{ad_pk}/comments/{id}")
+    public ResponseEntity<?> getAdsComment(@PathVariable(value = "ad_pk") String adPk,
+                                             @PathVariable(value = "id") Integer Id) {
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{ad_pk}/comments/{id}")
+    public ResponseEntity<?> deleteAdsComment(@PathVariable(value = "ad_pk") String adPk,
+                                       @PathVariable(value = "id") Integer Id) {
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{ad_pk}/comments/{id}")
+    public ResponseEntity<?> updateComment(@PathVariable(value = "ad_pk") String adPk,
+                                                @PathVariable(value = "id") Integer Id
+                                                //@RequestBody Comment comment,
+    ) {
+        return ResponseEntity.ok().build();
+    }
+
 
 
 
