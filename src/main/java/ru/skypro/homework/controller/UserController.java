@@ -1,8 +1,11 @@
 package ru.skypro.homework.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import ru.skypro.homework.dto.CreateAds;
 import ru.skypro.homework.dto.NewPassword;
 import ru.skypro.homework.dto.UserDto;
 
@@ -11,21 +14,30 @@ import ru.skypro.homework.dto.UserDto;
 @RequestMapping("/users")
 public class UserController {
 
-    @GetMapping("/me")
-    public ResponseEntity<UserDto> getUser(UserDto user) {
-
+    @ApiOperation(value = "setPassword")
+    @PostMapping("/set_password")
+    ResponseEntity<NewPassword> changePassword(@RequestBody NewPassword newPassword) {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("me")
+    @ApiOperation(value = "getUser")
+    @GetMapping("/me")
+    public ResponseEntity<UserDto> getUser(UserDto user) {
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "updateUser")
+    @PatchMapping("/me")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto user) {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("set_password")
-    ResponseEntity<NewPassword> changePassword(@RequestBody NewPassword newPassword) {
-            return ResponseEntity.ok().build();
-        }
+
+    @ApiOperation(value = "updateUserImage")
+    @PatchMapping("/me/image")
+    public ResponseEntity<UserDto> updateUserImage(@RequestPart MultipartFile image) {
+        return ResponseEntity.ok().build();
+    }
     }
 
 
