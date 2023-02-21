@@ -1,6 +1,7 @@
 package ru.skypro.homework.controller;
 
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,8 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageController {
 
     @ApiOperation(value = "updateAdsImage")
-    @PatchMapping("/{id}")
-    public ResponseEntity<?> updateAdsImage(@PathVariable Integer id, @RequestBody MultipartFile photo) {
+    @PatchMapping(value = "/image/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateAdsImage(@PathVariable Integer id, @RequestParam MultipartFile image) {
         return ResponseEntity.ok().build();
     }
 }

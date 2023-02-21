@@ -2,6 +2,7 @@ package ru.skypro.homework.controller;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,11 +34,11 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "updateUserImage")
+    @ApiOperation(value = "updateUserImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PatchMapping("/me/image")
     public ResponseEntity<UserDto> updateUserImage(@RequestPart MultipartFile image) {
         return ResponseEntity.ok().build();
     }
-    }
+}
 
 

@@ -1,10 +1,13 @@
 package ru.skypro.homework.controller;
 
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
+
+import javax.xml.stream.events.Comment;
 
 
 @CrossOrigin(value = "http://localhost:3000")
@@ -13,13 +16,13 @@ import ru.skypro.homework.dto.*;
 public class AdsController {
 
     @GetMapping
-    public ResponseEntity<?> getAllAds(@RequestParam(required = false) String title) {
+    public ResponseEntity<?> getAllAds() {
         return ResponseEntity.ok().build();
     }
 
     @ApiOperation(value = "addAds")
-    @PostMapping()
-    public ResponseEntity<?> createAds(@RequestPart("properties") CreateAds ads, @RequestPart("image") MultipartFile photo) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> createAds(@RequestPart("properties") CreateAds ads, @RequestPart("image") MultipartFile image) {
         return ResponseEntity.ok().build();
     }
 
@@ -72,8 +75,8 @@ public class AdsController {
     @ApiOperation(value = "updateComments")
     @PatchMapping("/{ad_pk}/comments/{id}")
     public ResponseEntity<?> updateComment(@PathVariable(value = "ad_pk") String adPk,
-                                           @PathVariable(value = "id") Integer Id
-                                           //@RequestBody Comment comment,
+                                           @PathVariable(value = "id") Integer Id,
+                                           @RequestBody Comment comment
     ) {
         return ResponseEntity.ok().build();
     }
@@ -81,7 +84,7 @@ public class AdsController {
 
     @ApiOperation(value = "getAdsMe")
     @GetMapping("/me")
-    public ResponseEntity<?> getAdsMeUsingGET(@RequestPart("authenticated") boolean authenticated) {
+    public ResponseEntity<?> getAdsMeUsingGET() {
         return ResponseEntity.ok().build();
     }
 }
