@@ -23,13 +23,13 @@ public class UserController {
 
     @ApiOperation(value = "getUser")
     @GetMapping("/me")
-    public ResponseEntity<UserDto> getUser(UserDto user) {
+    public ResponseEntity<?> getUser(UserDto user) {
         return ResponseEntity.ok().build();
     }
 
     @ApiOperation(value = "updateUser")
     @PatchMapping("/me")
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto user) {
+    public ResponseEntity<?> updateUser(@RequestBody UserDto user) {
         return ResponseEntity.ok().build();
     }
 
