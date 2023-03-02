@@ -6,7 +6,7 @@ import lombok.Data;
 public class CommentsDto {
     private Integer author;
     private String createdAt;
-    private Integer pk;
+    private Long pk;
     private String text;
 
 }
