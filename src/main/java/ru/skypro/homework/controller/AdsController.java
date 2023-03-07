@@ -47,7 +47,7 @@ public class AdsController {
 
     @ApiOperation(value = "removeAds")
     @DeleteMapping("/{id}")
-    ResponseEntity<?> removeAds(@PathVariable Integer id) {
+   public ResponseEntity<?> removeAds(@PathVariable Integer id) {
         return ResponseEntity.ok().build();
     }
 
