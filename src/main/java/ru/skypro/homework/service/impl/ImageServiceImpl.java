@@ -21,6 +21,7 @@ public class ImageServiceImpl implements ImageService {
             imageRepository.save(image);
         }
         throw new NotFoundException("Image already exist");
+
     }
 
     @Override

@@ -13,6 +13,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     public UserProfileServiceImpl(UserProfileRepository userProfileRepository) {
         this.userProfileRepository = userProfileRepository;
+
     }
 
     @Override

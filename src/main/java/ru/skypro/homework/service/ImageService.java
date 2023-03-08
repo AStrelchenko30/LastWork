@@ -7,4 +7,5 @@ public interface ImageService {
     public Image updateImage(Image imageNew);
     public Image findImage(Long id);
     public Image deleteImage(Long id);
+
 }

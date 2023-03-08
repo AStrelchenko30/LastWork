@@ -7,4 +7,5 @@ public interface UserProfileService {
     public UserProfile updateUser(UserProfile userProfileNew);
     public UserProfile findUser(Long id);
     public UserProfile deleteUser(Long id);
+
 }
