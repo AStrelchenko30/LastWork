@@ -86,7 +86,6 @@
             <version>42.3.8</version>
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-codegen-maven-plugin</artifactId>
