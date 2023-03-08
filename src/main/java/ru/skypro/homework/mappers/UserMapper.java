@@ -11,18 +11,13 @@ public interface UserMapper {
 
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
+    @Mapping(source = "userProfile.id", target = "id")
+    @Mapping(source = "userProfile.email", target = "email")
+    @Mapping(source = "userProfile.firstName", target = "firstName")
+    @Mapping(source = "userProfile.lastName", target = "lastName")
+    @Mapping(source = "userProfile.phone", target = "phone")
+   // @Mapping(source = "image.id", target = "image")
+    UserProfile dtoToUserDto(UserProfile userProfile);
 
-
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "email", target = "email")
-    @Mapping(source = "firstName", target = "firstName")
-    @Mapping(source = "lastName", target = "lastName")
-    @Mapping(source = "phone", target = "phone")
-    UserProfile userProfileToUserDto(UserProfile userProfile);
-
-    UserDto userDtoToUserProfile(UserDto userDto);
-
-
-
-
+  //  UserDto userDtoToUserProfile(UserDto userDto);
 }

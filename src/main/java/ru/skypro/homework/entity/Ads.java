@@ -15,13 +15,13 @@ public class Ads {
     @JoinColumn(name = "user_profile_id")
     private UserProfile author;
 
-    @Column(name = "title")
+   // @Column(name = "title")
     private String title;
 
-    @Column(name = "price")
+   // @Column(name = "price")
     private int price;
 
-    @Column(name = "description")
+ //   @Column(name = "description")
     private String description;
 
     @OneToOne(cascade = CascadeType.ALL)
