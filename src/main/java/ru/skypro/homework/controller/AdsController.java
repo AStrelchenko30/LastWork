@@ -23,26 +23,28 @@ public class AdsController {
     @ApiOperation(value = "addAds")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> createAds(@RequestPart("properties") CreateAds ads, @RequestPart("image") MultipartFile image) {
-        return ResponseEntity.ok().build();
+       return ResponseEntity.ok().build();
     }
 
     @ApiOperation(value = "getComments")
     @GetMapping("/{ad_pk}/comments")
     public ResponseEntity<?> getComments(@PathVariable(value = "ad_pk") String adPk) {
-        return ResponseEntity.ok().build();
+             return ResponseEntity.ok().build();
     }
 
     @ApiOperation(value = "addComments")
     @PostMapping("/{ad_pk}/comments")
-    public ResponseEntity<?> addAdsComment(@PathVariable(value = "ad_pk") String adPk,
-                                           @RequestBody CommentsDto comment) {
-        return ResponseEntity.ok().build();
+    public CommentsDto addAdsComment(@PathVariable(value = "ad_pk") String adPk,
+                                     @RequestBody CommentsDto comment) {
+        //return ResponseEntity.ok().build();
+        return new CommentsDto();
     }
 
     @ApiOperation(value = "getFullAd")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getFullAds(@PathVariable Integer id) {
-        return ResponseEntity.ok().build();
+    public FullAds getFullAds(@PathVariable Integer id) {
+        //return ResponseEntity.ok().build();
+        return new FullAds();
     }
 
     @ApiOperation(value = "removeAds")
@@ -53,9 +55,10 @@ public class AdsController {
 
     @ApiOperation(value = "updateAds")
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateAds(@PathVariable(value = "id") Integer Id,
-                                       @RequestBody CreateAds createAds) {
-        return ResponseEntity.ok().build();
+    public CreateAds updateAds(@PathVariable(value = "id") Integer Id,
+                               @RequestBody CreateAds createAds) {
+        //return ResponseEntity.ok().build();
+        return new CreateAds();
     }
 
     @ApiOperation(value = "getComments")

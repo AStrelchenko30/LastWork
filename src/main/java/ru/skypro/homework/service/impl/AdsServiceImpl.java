@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.CommentsDto;
 import ru.skypro.homework.dto.CreateAds;
-import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.repository.ImageRepository;
@@ -12,7 +11,6 @@ import ru.skypro.homework.repository.UserProfileRepository;
 import ru.skypro.homework.service.AdsService;
 
 import javax.xml.stream.events.Comment;
-import java.util.Collection;
 
 public class AdsServiceImpl implements AdsService {
 
@@ -36,8 +34,12 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public ResponseEntity<?> createAds(CreateAds ads, MultipartFile image) {
-        return null;
+    public CreateAds createAds(CreateAds ads, MultipartFile image) {
+        CreateAds createAds = new CreateAds();
+        createAds.setTitle(ads.getTitle());
+        createAds.setPrice(ads.getPrice());
+        createAds.setDescription(ads.getDescription());
+        return createAds;
     }
 
     @Override

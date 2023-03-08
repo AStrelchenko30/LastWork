@@ -1,9 +1,6 @@
 package ru.skypro.homework.service;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.CommentsDto;
 import ru.skypro.homework.dto.CreateAds;
@@ -13,7 +10,7 @@ import javax.xml.stream.events.Comment;
 public interface AdsService {
 
      ResponseEntity<?> getAllAds();
-    ResponseEntity<?> createAds(CreateAds ads,MultipartFile image);
+    CreateAds createAds(CreateAds ads, MultipartFile image);
     ResponseEntity<?> getComments(String adPk);
     ResponseEntity<?> addAdsComment(String adPk,CommentsDto comment);
     ResponseEntity<?> getFullAds(Integer id);
