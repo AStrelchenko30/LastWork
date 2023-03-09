@@ -29,11 +29,16 @@ public class UserController {
 
     @ApiOperation(value = "updateUser")
     @PatchMapping("/me")
+<<<<<<< HEAD
    // public ResponseEntity<?> updateUser(@RequestBody UserDto user) {
        // return ResponseEntity.ok().build();
 
     public UserDto updateUser(@RequestBody UserDto user){
         return new UserDto();
+=======
+    public ResponseEntity<?> updateUser(@RequestBody UserDto user) {
+        return ResponseEntity.ok().build();
+>>>>>>> 1dab2c2 (2-я дз пока без мапперов)
     }
 
 
