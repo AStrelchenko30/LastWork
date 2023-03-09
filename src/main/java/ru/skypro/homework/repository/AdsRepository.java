@@ -11,6 +11,5 @@ import java.util.Collection;
 public interface AdsRepository extends JpaRepository<Ads, Long> {
 
     void deleteAllById(Long adsId);
-
     Collection<Ads> findAllByTitle(String title);
 }

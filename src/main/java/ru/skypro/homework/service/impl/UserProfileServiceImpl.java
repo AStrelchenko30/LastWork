@@ -6,6 +6,8 @@ import ru.skypro.homework.repository.UserProfileRepository;
 import ru.skypro.homework.service.UserProfileService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
 
@@ -44,6 +46,11 @@ public class UserProfileServiceImpl implements UserProfileService {
         }
         throw new NotFoundException("User not found");
     }
+
+    @Override
+    public List<UserProfile> getAllUser() {
+            return userProfileRepository.findAll();
+        }
 
     @Override
     public UserProfile deleteUser(Long id) {
