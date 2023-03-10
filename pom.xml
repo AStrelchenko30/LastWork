@@ -97,7 +97,7 @@
             <version>1.0.54</version>
         </dependency>
 
-                <dependency>
+        <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>mailapi</artifactId>
             <version>1.6.2</version>
