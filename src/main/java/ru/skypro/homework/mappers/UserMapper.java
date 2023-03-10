@@ -11,13 +11,14 @@ public interface UserMapper {
 
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    @Mapping(source = "userProfile.id", target = "id")
     @Mapping(source = "userProfile.email", target = "email")
     @Mapping(source = "userProfile.firstName", target = "firstName")
     @Mapping(source = "userProfile.lastName", target = "lastName")
     @Mapping(source = "userProfile.phone", target = "phone")
-   // @Mapping(source = "image.id", target = "image")
-    UserProfile dtoToUserDto(UserProfile userProfile);
+    @Mapping(target = "image", ignore = true)
+    @Mapping(target = "city", ignore = true)
+    @Mapping(target = "regDate", ignore = true)
+    @Mapping(target = "name", ignore = true)
+    UserDto dtoToUserDto(UserProfile userProfile);
 
-  //  UserDto userDtoToUserProfile(UserDto userDto);
 }

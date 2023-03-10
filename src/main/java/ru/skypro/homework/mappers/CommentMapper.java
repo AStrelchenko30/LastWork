@@ -6,19 +6,15 @@ import org.mapstruct.factory.Mappers;
 import ru.skypro.homework.dto.CommentsDto;
 import ru.skypro.homework.entity.Comment;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface CommentMapper {
 
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
 
-    @Mapping(target = "pk", source = "id")
-    @Mapping(target = "author", source = "author")
-    @Mapping(target = "createdAt", source = "createdAt")
-    @Mapping(target = "text", source = "text")
-    CommentsDto toDto(Comment comment);
-
-  @Mapping(target = "pk", source = "id")
-    Comment dtoToComments(CommentsDto commentDto);
-
+    @Mapping(target = "pk", source = "comment.id")
+    @Mapping(target = "author", source = "comment.author")
+    @Mapping(target = "createdAt", source = "comment.createdAt")
+    @Mapping(target = "text", source = "comment.text")
+    CommentsDto dtoToCommentsDto(Comment comment);
 
 }

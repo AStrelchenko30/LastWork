@@ -10,34 +10,30 @@ import ru.skypro.homework.dto.CreateAds;
 import ru.skypro.homework.dto.FullAds;
 import ru.skypro.homework.entity.Ads;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
 public interface AdsMapper {
 
     AdsMapper INSTANCE = Mappers.getMapper(AdsMapper.class);
 
-    @Mapping(target = "image", source = "image.id")
-    @Mapping(target = "author", source = "author.id")
-    @Mapping(target = "pk", source = "id")
-    @Mapping(target = "price", source = "price")
-    @Mapping(target = "title", source = "description")
+    @Mapping(target = "image", source = "ads.image.id")
+    @Mapping(target = "author", source = "ads.author.id")
+    @Mapping(target = "pk", source = "ads.id")
+    @Mapping(target = "price", source = "ads.price")
+    @Mapping(target = "title", ignore = true)
     AdsDto dtoToAdsDto(Ads ads);
 
-    @Mapping(target = "authorFirstName", source = "author.firstName")
-    @Mapping(target = "authorLastName", source = "author.lastName")
-    @Mapping(target = "description", source = "description")
-    @Mapping(target = "email", source = "author.email")
-    @Mapping(target = "phone", source = "author.phone")
-    @Mapping(target = "pk", source = "id")
-    @Mapping(target = "price", source = "price")
-    @Mapping(target = "title", source = "title")
+    @Mapping(target = "authorFirstName", source = "ads.author.firstName")
+    @Mapping(target = "authorLastName", source = "ads.author.lastName")
+    @Mapping(target = "description", source = "ads.description")
+    @Mapping(target = "email", source = "ads.author.email")
+    @Mapping(target = "phone", source = "ads.author.phone")
+    @Mapping(target = "pk", source = "ads.id")
+    @Mapping(target = "price", source = "ads.price")
+    @Mapping(target = "title", source = "ads.title")
     FullAds dtoToFullAds(Ads ads);
 
     @Mapping(target = "pk", ignore = true)
     @Mapping(target = "comments", ignore = true)
     Ads dtoToCreateAds(CreateAds createAds, User author, String image);
-
-    List<AdsDto> toDtoList(List<Ads> adsList);
 
 }
