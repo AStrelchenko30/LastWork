@@ -153,8 +153,9 @@ public class AdsServiceImpl implements AdsService {
             commentRepository.deleteById(Math.toIntExact(adsComment.getId()));
 
             return commentMapper.toDto(adsComment);
+        }
+        throw new RuntimeException("Comment not found");
     }
-
     @Override
     public ResponseEntity<?> getAdsMeUsingGET() {
         return null;
