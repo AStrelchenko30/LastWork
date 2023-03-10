@@ -67,7 +67,7 @@ public class AdsServiceImpl implements AdsService {
 
         Comment adsComment = commentRepository.findAdsCommentByPkAndId(adPk, Id)
                 .orElseThrow(CommentNotFoundException::new);
-        return CommentMapper.toDto(adsComment);
+        return CommentMapper.INSTANCE.dtoToCommentsDto(adsComment);
     }
 
     @Override
@@ -113,7 +113,7 @@ public class AdsServiceImpl implements AdsService {
         List<Comment> adsCommentList = commentRepository.findAdsCommentsByPk(adPk);
         List<CommentsDto> adsCommentDtoList = new ArrayList<>(adsCommentList.size());
         for (Comment adsComment : adsCommentList) {
-            adsCommentDtoList.add(CommentMapper.toDto(adsComment));
+            adsCommentDtoList.add(CommentMapper.INSTANCE.dtoToCommentsDto(adsComment));
         }
         ResponseWrapperComment responseWrapperComment = new ResponseWrapperComment();
         responseWrapperComment.setCount(adsCommentDtoList.size());
@@ -125,9 +125,9 @@ public class AdsServiceImpl implements AdsService {
     public CommentsDto addAdsComment(Long adPk, CommentsDto comment) {
         comment.setCreatedAt(String.valueOf(LocalDateTime.now()));
         comment.setPk(adPk);
-        Comment adsComment = CommentMapper.dtoToComments(comment);
+        Comment adsComment = CommentMapper.INSTANCE.dtoToComments(comment);
         commentRepository.save(adsComment);
-        return commentMapper.toDto(adsComment);
+        return commentMapper.dtoToCommentsDto(adsComment);
     }
 
     @Override
@@ -152,7 +152,7 @@ public class AdsServiceImpl implements AdsService {
         if (commentRepository.findAdsCommentByPkAndId(adPk, Id).isPresent()) {
             commentRepository.deleteById(Math.toIntExact(adsComment.getId()));
 
-            return commentMapper.toDto(adsComment);
+            return commentMapper.dtoToCommentsDto(adsComment);
         }
         throw new RuntimeException("Comment not found");
     }
