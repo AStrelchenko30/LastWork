@@ -2,14 +2,13 @@ package ru.skypro.homework.service.impl;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.dto.AdsDto;
-import ru.skypro.homework.dto.CommentsDto;
-import ru.skypro.homework.dto.CreateAds;
-import ru.skypro.homework.dto.ResponseWrapperAds;
+import ru.skypro.homework.dto.*;
 import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Comment;
+import ru.skypro.homework.entity.UserProfile;
 import ru.skypro.homework.exceptions.AdsNotFoundException;
 import ru.skypro.homework.exceptions.CommentNotFoundException;
+import ru.skypro.homework.exceptions.UserNotFoundException;
 import ru.skypro.homework.mappers.AdsMapper;
 import ru.skypro.homework.mappers.CommentMapper;
 import ru.skypro.homework.repository.AdsRepository;
@@ -20,10 +19,7 @@ import ru.skypro.homework.service.AdsService;
 
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class AdsServiceImpl implements AdsService {
 
@@ -35,13 +31,16 @@ public class AdsServiceImpl implements AdsService {
 
     private final AdsMapper adsMapper;
 
+    private final CommentMapper commentMapper;
 
-    public AdsServiceImpl(CommentRepository commentRepository, AdsRepository adsRepository, UserProfileRepository userProfileRepository, ImageRepository imageRepository, AdsMapper adsMapper) {
+
+    public AdsServiceImpl(CommentRepository commentRepository, AdsRepository adsRepository, UserProfileRepository userProfileRepository, ImageRepository imageRepository, AdsMapper adsMapper, CommentMapper commentMapper) {
         this.commentRepository = commentRepository;
         this.adsRepository = adsRepository;
         this.userProfileRepository = userProfileRepository;
         this.imageRepository = imageRepository;
         this.adsMapper = adsMapper;
+        this.commentMapper = commentMapper;
     }
 
     @Override
@@ -110,23 +109,50 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public ResponseEntity<?> getComments(String adPk) {
-        return null;
+    public ResponseWrapperComment getComments(String adPk) {
+        List<Comment> adsCommentList = commentRepository.findAdsCommentsByPk(adPk);
+        List<CommentsDto> adsCommentDtoList = new ArrayList<>(adsCommentList.size());
+        for (Comment adsComment : adsCommentList) {
+            adsCommentDtoList.add(CommentMapper.toDto(adsComment));
+        }
+        ResponseWrapperComment responseWrapperComment = new ResponseWrapperComment();
+        responseWrapperComment.setCount(adsCommentDtoList.size());
+        responseWrapperComment.setResults(adsCommentDtoList);
+        return responseWrapperComment;
     }
 
     @Override
-    public CommentsDto addAdsComment(String adPk, CommentsDto comment) {
-
-        return null;
+    public CommentsDto addAdsComment(Long adPk, CommentsDto comment) {
+        comment.setCreatedAt(String.valueOf(LocalDateTime.now()));
+        comment.setPk(adPk);
+        Comment adsComment = CommentMapper.dtoToComments(comment);
+        commentRepository.save(adsComment);
+        return commentMapper.toDto(adsComment);
     }
 
     @Override
-    public ResponseEntity<?> getFullAds(Integer id) {
-        return null;
+    public FullAds getFullAds(Integer id) {
+        Ads ads = adsRepository.findById(id).orElseThrow(AdsNotFoundException::new);
+        UserProfile user = userProfileRepository.findById(Math.toIntExact(ads.getAuthor().getId())).orElseThrow(UserNotFoundException::new);
+        FullAds fullAds = new FullAds();
+        fullAds.setAuthorFirstName(user.getFirstName());
+        fullAds.setAuthorLastName(user.getLastName());
+        fullAds.setDescription(ads.getDescription());
+        fullAds.setEmail(user.getEmail());
+        fullAds.setImage(ads.getImage());
+        fullAds.setPhone(user.getPhone());
+        fullAds.setPrice(ads.getPrice());
+        fullAds.setTitle(ads.getTitle());
+        return fullAds;
     }
     @Override
-    public ResponseEntity<?> deleteAdsComment(String adPk, Integer Id) {
-        return null;
+    public CommentsDto deleteAdsComment(String adPk, Integer Id) {
+        Comment adsComment = commentRepository.findAdsCommentByPkAndId(adPk, Id)
+                .orElseThrow(CommentNotFoundException::new);
+        if (commentRepository.findAdsCommentByPkAndId(adPk, Id).isPresent()) {
+            commentRepository.deleteById(Math.toIntExact(adsComment.getId()));
+
+            return commentMapper.toDto(adsComment);
     }
 
     @Override
