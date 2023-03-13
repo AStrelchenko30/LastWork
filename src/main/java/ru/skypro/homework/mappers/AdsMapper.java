@@ -10,6 +10,8 @@ import ru.skypro.homework.dto.CreateAds;
 import ru.skypro.homework.dto.FullAds;
 import ru.skypro.homework.entity.Ads;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface AdsMapper {
 
@@ -36,4 +38,6 @@ public interface AdsMapper {
     @Mapping(target = "comments", ignore = true)
     Ads dtoToCreateAds(CreateAds createAds, User author, String image);
 
+
+    List<AdsDto> toDtoList(List<Ads> adsList);
 }

@@ -85,7 +85,7 @@ public class Ads {
         this.description = description;
     }
 
-    public String getImage() {
+    public Image getImage() {
         return image;
     }
 
