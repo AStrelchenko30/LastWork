@@ -2,11 +2,14 @@ package ru.skypro.homework.controller;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.NewPassword;
 import ru.skypro.homework.dto.UserDto;
+import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.entity.UserProfile;
 import ru.skypro.homework.service.AuthService;
 import ru.skypro.homework.service.ImageService;
@@ -23,7 +26,7 @@ public class UserController {
     public UserController(UserProfileService userProfileService, ImageService imageService, AuthService authService) {
         this.userProfileService = userProfileService;
         this.imageService = imageService;
-        this.authService=authService;
+        this.authService = authService;
     }
 
     @ApiOperation(value = "setPassword")
@@ -35,6 +38,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
+
     @ApiOperation(value = "getUser")
     @GetMapping("/me")
     public ResponseEntity<UserDto> getUser(Long id) {
@@ -47,15 +51,13 @@ public class UserController {
         return ResponseEntity.ok(userProfileService.updateUser(userProfile));
     }
 
-/*
+
     @ApiOperation(value = "updateUserImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PatchMapping("/me/image")
-    public ResponseEntity<UserDto> updateUserImage(@RequestPart MultipartFile image) {
-        UserDto userProfileImage = imageService.updateImage(image);
-        ImageMapper.INSTANCE.dtoToImage(userProfileImage);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Image> updateUserImage(@RequestPart Image image) {
+               return ResponseEntity.ok(imageService.updateImage(image));
     }
- */
+
 
 }
 

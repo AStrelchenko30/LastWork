@@ -12,5 +12,5 @@ import ru.skypro.homework.entity.Image;
 @Mapper(componentModel = "spring")
 public interface ImageMapper {
     ImageMapper INSTANCE = Mappers.getMapper(ImageMapper.class);
-    Image dtoToImage(UserDto userDto);
+    Image dtoToImage(Image image);
 }

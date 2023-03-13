@@ -2,7 +2,9 @@ package ru.skypro.homework.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
+import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.entity.Image;
+import ru.skypro.homework.mappers.ImageMapper;
 import ru.skypro.homework.repository.ImageRepository;
 import ru.skypro.homework.service.ImageService;
 
@@ -31,7 +33,8 @@ public class ImageServiceImpl implements ImageService {
             imageOld.setMediaType(imageNew.getMediaType());
             imageOld.setData(imageNew.getData());
             imageOld.setAds(imageNew.getAds());
-            return imageRepository.save(imageOld);
+            imageRepository.save(imageOld);
+            return ImageMapper.INSTANCE.dtoToImage(imageNew);
         }
         throw new NotFoundException("Image not found");
     }
