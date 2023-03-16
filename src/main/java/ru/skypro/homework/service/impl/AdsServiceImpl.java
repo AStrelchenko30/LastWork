@@ -1,6 +1,7 @@
 package ru.skypro.homework.service.impl;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
 import ru.skypro.homework.entity.Ads;
@@ -13,7 +14,6 @@ import ru.skypro.homework.mappers.AdsMapper;
 import ru.skypro.homework.mappers.CommentMapper;
 import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.repository.CommentRepository;
-import ru.skypro.homework.repository.ImageRepository;
 import ru.skypro.homework.repository.UserProfileRepository;
 import ru.skypro.homework.service.AdsService;
 
@@ -21,32 +21,28 @@ import ru.skypro.homework.service.AdsService;
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Service
 public class AdsServiceImpl implements AdsService {
-
 
     private final CommentRepository commentRepository;
     private final AdsRepository adsRepository;
     private final UserProfileRepository userProfileRepository;
-    private final ImageRepository imageRepository;
-
-    private final AdsMapper adsMapper;
-
-    private final CommentMapper commentMapper;
 
 
-    public AdsServiceImpl(CommentRepository commentRepository, AdsRepository adsRepository, UserProfileRepository userProfileRepository, ImageRepository imageRepository, AdsMapper adsMapper, CommentMapper commentMapper) {
+
+
+    public AdsServiceImpl(CommentRepository commentRepository, AdsRepository adsRepository, UserProfileRepository userProfileRepository) {
         this.commentRepository = commentRepository;
         this.adsRepository = adsRepository;
         this.userProfileRepository = userProfileRepository;
-        this.imageRepository = imageRepository;
-        this.adsMapper = adsMapper;
-        this.commentMapper = commentMapper;
+
+
     }
 
     @Override
     public ResponseWrapperAds getAllAds() {
         ResponseWrapperAds responseWrapperAds = new ResponseWrapperAds();
-        List<AdsDto> results = adsMapper.toDtoList(adsRepository.findAll());
+        List<AdsDto> results = AdsMapper.INSTANCE.toDtoList(adsRepository.findAll());
         results.stream().sorted(Comparator.comparing(AdsDto::getAuthor));
         responseWrapperAds.setResults(results);
         responseWrapperAds.setCount(results.size());
@@ -59,7 +55,7 @@ public class AdsServiceImpl implements AdsService {
         createAds.setDescription(createAds.getDescription());
         createAds.setPrice(createAds.getPrice());
         adsRepository.save(createAds);
-        return adsMapper.dtoToAdsDto(createAds);
+        return AdsMapper.INSTANCE.dtoToAdsDto(createAds);
     }
 
     @Override
@@ -77,7 +73,7 @@ public class AdsServiceImpl implements AdsService {
         if (adsRepository.findById(id).isPresent()) {
             userProfileRepository.deleteById(id);
         }
-        return adsMapper.dtoToAdsDto(ads);
+        return AdsMapper.INSTANCE.dtoToAdsDto(ads);
     }
 
     @Override
@@ -100,7 +96,7 @@ public class AdsServiceImpl implements AdsService {
             ads.setDescription(createAds.getDescription());
             ads.setTitle(createAds.getTitle());
             ads.setPrice(createAds.getPrice());
-            AdsDto adsDto = adsMapper.dtoToAdsDto(ads);
+            AdsDto adsDto = AdsMapper.INSTANCE.dtoToAdsDto(ads);
             adsDto.setPk(Id);
             adsRepository.save(ads);
             return adsDto;
@@ -127,7 +123,7 @@ public class AdsServiceImpl implements AdsService {
         comment.setPk(adPk);
         Comment adsComment = CommentMapper.INSTANCE.dtoToComments(comment);
         commentRepository.save(adsComment);
-        return commentMapper.dtoToCommentsDto(adsComment);
+        return CommentMapper.INSTANCE.dtoToCommentsDto(adsComment);
     }
 
     @Override
@@ -152,7 +148,7 @@ public class AdsServiceImpl implements AdsService {
         if (commentRepository.findAdsCommentByPkAndId(adPk, Id).isPresent()) {
             commentRepository.deleteById(Math.toIntExact(adsComment.getId()));
 
-            return commentMapper.dtoToCommentsDto(adsComment);
+            return CommentMapper.INSTANCE.dtoToCommentsDto(adsComment);
         }
         throw new RuntimeException("Comment not found");
     }

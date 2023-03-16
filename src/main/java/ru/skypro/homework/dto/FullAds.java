@@ -1,6 +1,7 @@
 package ru.skypro.homework.dto;
 
 import lombok.Data;
+import ru.skypro.homework.entity.Image;
 
 import java.util.Arrays;
 
@@ -11,7 +12,7 @@ public class FullAds {
     private  String authorLastName;
     private String description;
     private String email;
-    private String image;
+    private Image image;
     private String phone;
     private Integer pk;
     private Integer price;

@@ -2,8 +2,10 @@ package ru.skypro.homework.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
@@ -11,17 +13,14 @@ import ru.skypro.homework.entity.Comment;
 import ru.skypro.homework.service.AdsService;
 
 
-
-
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
 @RequestMapping("/ads")
 @RequiredArgsConstructor
+
 public class AdsController {
 
     private final AdsService adsService;
-
-
 
 
     @GetMapping
@@ -32,7 +31,7 @@ public class AdsController {
     @ApiOperation(value = "addAds")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> createAds(@RequestPart("properties") CreateAds ads, @RequestPart("image") MultipartFile image) {
-        return ResponseEntity.ok(adsService.createAds(ads,image));
+        return ResponseEntity.ok(adsService.createAds(ads, image));
     }
 
     @ApiOperation(value = "getComments")
@@ -44,8 +43,8 @@ public class AdsController {
     @ApiOperation(value = "addComments")
     @PostMapping("/{ad_pk}/comments")
     public ResponseEntity<CommentsDto> addAdsComment(@PathVariable(value = "ad_pk") Long adPk,
-                                     @RequestBody CommentsDto comment) {
-        return ResponseEntity.ok(adsService.addAdsComment(adPk,comment));
+                                                     @RequestBody CommentsDto comment) {
+        return ResponseEntity.ok(adsService.addAdsComment(adPk, comment));
     }
 
     @ApiOperation(value = "getFullAd")
@@ -63,23 +62,24 @@ public class AdsController {
     @ApiOperation(value = "updateAds")
     @PatchMapping("/{id}")
     public ResponseEntity<AdsDto> updateAds(@PathVariable(value = "id") Integer Id,
-                               @RequestBody CreateAds createAds) {
-        return ResponseEntity.ok(adsService.updateAds(Id,createAds));
+                                            @RequestBody CreateAds createAds) {
+        return ResponseEntity.ok(adsService.updateAds(Id, createAds));
 
     }
 
     @ApiOperation(value = "getComments")
     @GetMapping("/{ad_pk}/comments/{id}")
     public ResponseEntity<CommentsDto> getAdsComment(@PathVariable(value = "ad_pk") String adPk,
-                                           @PathVariable(value = "id") Integer Id) {
-        return ResponseEntity.ok(adsService.getAdsComment(adPk,Id));
+                                                     @PathVariable(value = "id") Integer Id) {
+      return ResponseEntity.ok(adsService.getAdsComment(adPk, Id));
+
     }
 
     @ApiOperation(value = "deleteComments")
     @DeleteMapping("/{ad_pk}/comments/{id}")
     public ResponseEntity<CommentsDto> deleteAdsComment(@PathVariable(value = "ad_pk") String adPk,
-                                              @PathVariable(value = "id") Integer Id) {
-        return ResponseEntity.ok(adsService.deleteAdsComment(adPk,Id));
+                                                        @PathVariable(value = "id") Integer Id) {
+        return ResponseEntity.ok(adsService.deleteAdsComment(adPk, Id));
     }
 
     @ApiOperation(value = "updateComments")
@@ -88,7 +88,7 @@ public class AdsController {
                                                  @PathVariable(value = "id") Integer Id,
                                                  @RequestBody Comment comment
     ) {
-        return ResponseEntity.ok(adsService.updateComment(adPk,Id,comment));
+        return ResponseEntity.ok(adsService.updateComment(adPk, Id, comment));
     }
 
 
