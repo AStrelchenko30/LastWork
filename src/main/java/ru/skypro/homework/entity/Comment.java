@@ -5,24 +5,24 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "comments")
+//@Table(name = "comments")
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+   // @Column(name = "id")
     private Long id;
 
-    @Column(name = "ads_id")
+   // @Column(name = "ads_id")
     private Long adsId;
 
-    @Column(name = "user_profile_id")
+   // @Column(name = "user_profile_id")
     private Long author;
 
-    @Column(name = "created_at")
+  //  @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "text")
+  //  @Column(name = "text")
     private String text;
 
     public Comment() {

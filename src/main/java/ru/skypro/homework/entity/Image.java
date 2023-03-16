@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Arrays;
 
 @Entity
-@Table(name="image")
+//@Table(name="image")
 public class Image {
 
     @Id

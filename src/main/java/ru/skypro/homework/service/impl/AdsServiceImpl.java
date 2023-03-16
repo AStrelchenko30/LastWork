@@ -29,8 +29,6 @@ public class AdsServiceImpl implements AdsService {
     private final UserProfileRepository userProfileRepository;
 
 
-
-
     public AdsServiceImpl(CommentRepository commentRepository, AdsRepository adsRepository, UserProfileRepository userProfileRepository) {
         this.commentRepository = commentRepository;
         this.adsRepository = adsRepository;
@@ -61,7 +59,7 @@ public class AdsServiceImpl implements AdsService {
     @Override
     public CommentsDto getAdsComment(String adPk, Integer Id) {
 
-        Comment adsComment = commentRepository.findAdsCommentByPkAndId(adPk, Id)
+        Comment adsComment = commentRepository.findAdsCommentByCreatedAtAndId(adPk, Id)
                 .orElseThrow(CommentNotFoundException::new);
         return CommentMapper.INSTANCE.dtoToCommentsDto(adsComment);
     }
@@ -78,7 +76,7 @@ public class AdsServiceImpl implements AdsService {
 
     @Override
     public Comment updateComment(String adPk, Integer Id, Comment comment) {
-        Comment adsComment = commentRepository.findAdsCommentByPkAndId(adPk, Id)
+        Comment adsComment = commentRepository.findAdsCommentByCreatedAtAndId(adPk, Id)
                 .orElseThrow(CommentNotFoundException::new);
         if (commentRepository.findById(Id).isPresent()) {
             //adsComment.setText(CommentsDto.getText()); ?????
@@ -106,7 +104,7 @@ public class AdsServiceImpl implements AdsService {
 
     @Override
     public ResponseWrapperComment getComments(String adPk) {
-        List<Comment> adsCommentList = commentRepository.findAdsCommentsByPk(adPk);
+        List<Comment> adsCommentList = commentRepository.findAdsCommentByCreatedAt(adPk);
         List<CommentsDto> adsCommentDtoList = new ArrayList<>(adsCommentList.size());
         for (Comment adsComment : adsCommentList) {
             adsCommentDtoList.add(CommentMapper.INSTANCE.dtoToCommentsDto(adsComment));
@@ -141,17 +139,19 @@ public class AdsServiceImpl implements AdsService {
         fullAds.setTitle(ads.getTitle());
         return fullAds;
     }
+
     @Override
     public CommentsDto deleteAdsComment(String adPk, Integer Id) {
-        Comment adsComment = commentRepository.findAdsCommentByPkAndId(adPk, Id)
+        Comment adsComment = commentRepository.findAdsCommentByCreatedAtAndId(adPk, Id)
                 .orElseThrow(CommentNotFoundException::new);
-        if (commentRepository.findAdsCommentByPkAndId(adPk, Id).isPresent()) {
+        if (commentRepository.findAdsCommentByCreatedAtAndId(adPk, Id).isPresent()) {
             commentRepository.deleteById(Math.toIntExact(adsComment.getId()));
 
             return CommentMapper.INSTANCE.dtoToCommentsDto(adsComment);
         }
         throw new RuntimeException("Comment not found");
     }
+
     @Override
     public ResponseEntity<?> getAdsMeUsingGET() {
         return null;

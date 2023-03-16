@@ -4,27 +4,24 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "ads")
+//@Table(name = "ads")
 
 public class Ads {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_profile_id")
     private UserProfile author;
 
-
-
-
-    @Column(name = "title")
+   // @Column(name = "title")
     private String title;
 
-    @Column(name = "price")
+   // @Column(name = "price")
     private int price;
 
-    @Column(name = "description")
+   // @Column(name = "description")
 
     private String description;
 
@@ -36,7 +33,7 @@ public class Ads {
 
     }
 
-    public Ads(Long id, UserProfile author, String title, int price, String description, Image image) {
+    public Ads(Integer id, UserProfile author, String title, int price, String description, Image image) {
         this.id = id;
         this.author = author;
         this.title = title;
@@ -45,11 +42,11 @@ public class Ads {
         this.image = image;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

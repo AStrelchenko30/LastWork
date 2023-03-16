@@ -5,25 +5,25 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "users_profiles")
+//@Table(name = "users_profiles")
 public class UserProfile {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+  //  @Column(name = "id")
     private Long id;
 
-    @Column(name = "email")
+   // @Column(name = "email")
     private String email;
 
-    @Column(name = "first_name")
+  //  @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
+  //  @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "phone")
+   // @Column(name = "phone")
     private String phone;
 
     @OneToMany(mappedBy="author")
