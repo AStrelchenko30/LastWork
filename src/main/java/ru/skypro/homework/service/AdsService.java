@@ -3,7 +3,10 @@ package ru.skypro.homework.service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
+import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Comment;
+
+import java.util.List;
 
 
 public interface AdsService {
@@ -29,4 +32,5 @@ public interface AdsService {
     Comment updateComment(String adPk, Integer Id, Comment comment);
 
     ResponseEntity<?> getAdsMeUsingGET();
+    List<Ads> findAdsByTitle(String title);
 }

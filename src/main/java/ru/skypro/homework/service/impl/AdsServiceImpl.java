@@ -33,8 +33,6 @@ public class AdsServiceImpl implements AdsService {
         this.commentRepository = commentRepository;
         this.adsRepository = adsRepository;
         this.userProfileRepository = userProfileRepository;
-
-
     }
 
     @Override
@@ -155,5 +153,10 @@ public class AdsServiceImpl implements AdsService {
     @Override
     public ResponseEntity<?> getAdsMeUsingGET() {
         return null;
+    }
+
+    @Override
+    public List<Ads> findAdsByTitle(String title){
+        return adsRepository.findAdsByTitleLike(title);
     }
 }
