@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +19,7 @@ import ru.skypro.homework.service.UserProfileService;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class UserController  {
     private final UserProfileService userProfileService;
     private final ImageService imageService;
     private final AuthService authService;

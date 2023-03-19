@@ -13,6 +13,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true)
 public class WebSecurityConfig {
 
     private static final String[] AUTH_WHITELIST = {
@@ -29,6 +33,9 @@ public class WebSecurityConfig {
                 .username("user@gmail.com")
                 .password("password")
                 .roles("USER")
+                .username("we@gmail.com")
+                .password("we123")
+                .roles("ADMIN")
                 .build();
         return new InMemoryUserDetailsManager(user);
     }
