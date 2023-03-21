@@ -33,9 +33,6 @@ public class WebSecurityConfig {
                 .username("user@gmail.com")
                 .password("password")
                 .roles("USER")
-                .username("we@gmail.com")
-                .password("we123")
-                .roles("ADMIN")
                 .build();
         return new InMemoryUserDetailsManager(user);
     }

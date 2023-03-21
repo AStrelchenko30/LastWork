@@ -9,12 +9,14 @@ import ru.skypro.homework.entity.Comment;
 import ru.skypro.homework.entity.UserProfile;
 import ru.skypro.homework.exceptions.AdsNotFoundException;
 import ru.skypro.homework.exceptions.CommentNotFoundException;
+import ru.skypro.homework.exceptions.ForbiddenException;
 import ru.skypro.homework.exceptions.UserNotFoundException;
 import ru.skypro.homework.mappers.AdsMapper;
 import ru.skypro.homework.mappers.CommentMapper;
 import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.repository.UserProfileRepository;
+import ru.skypro.homework.security.UtilWebSecurity;
 import ru.skypro.homework.service.AdsService;
 
 
@@ -22,17 +24,23 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
-public class AdsServiceImpl implements AdsService {
+public class AdsServiceImpl implements AdsService, UtilWebSecurity {
 
     private final CommentRepository commentRepository;
+
+    private final AdsMapper adsMapper;
     private final AdsRepository adsRepository;
     private final UserProfileRepository userProfileRepository;
 
+    private final CommentMapper commentMapper;
 
-    public AdsServiceImpl(CommentRepository commentRepository, AdsRepository adsRepository, UserProfileRepository userProfileRepository) {
+
+    public AdsServiceImpl(CommentRepository commentRepository, AdsMapper adsMapper, AdsRepository adsRepository, UserProfileRepository userProfileRepository, CommentMapper commentMapper) {
         this.commentRepository = commentRepository;
+        this.adsMapper = adsMapper;
         this.adsRepository = adsRepository;
         this.userProfileRepository = userProfileRepository;
+        this.commentMapper = commentMapper;
     }
 
     @Override
@@ -64,25 +72,26 @@ public class AdsServiceImpl implements AdsService {
 
     @Override
     public AdsDto removeAds(Integer id) {
-        Ads ads = adsRepository.findById(id).get();
+        Ads ads = adsRepository.findById(id).orElseThrow(AdsNotFoundException::new);
 
-        if (adsRepository.findById(id).isPresent()) {
-            userProfileRepository.deleteById(id);
+        if (Objects.equals(ads.getAuthor().getId(), getUser().getId()) || getUser().getRoleEnum() == Role.ADMIN) {
+            adsRepository.deleteById(id);
+
+            return adsMapper.dtoToAdsDto(ads);
         }
-        return AdsMapper.INSTANCE.dtoToAdsDto(ads);
+         throw new ForbiddenException();
     }
 
     @Override
     public Comment updateComment(String adPk, Integer Id, Comment comment) {
         Comment adsComment = commentRepository.findAdsCommentByCreatedAtAndId(adPk, Id)
                 .orElseThrow(CommentNotFoundException::new);
-        if (commentRepository.findById(Id).isPresent()) {
-            //adsComment.setText(CommentsDto.getText()); ?????
+        if (Objects.equals(adsComment.getAuthor(), getUser().getId()) || getUser().getRoleEnum() == Role.ADMIN) {
             adsComment.setCreatedAt(LocalDateTime.now());
             commentRepository.save(adsComment);
             return comment;
         }
-        throw new CommentNotFoundException();
+        throw new ForbiddenException();
     }
 
     @Override
@@ -130,8 +139,7 @@ public class AdsServiceImpl implements AdsService {
         fullAds.setAuthorFirstName(user.getFirstName());
         fullAds.setAuthorLastName(user.getLastName());
         fullAds.setDescription(ads.getDescription());
-        fullAds.setEmail(user.getEmail());
-        fullAds.setImage(ads.getImage());
+        fullAds.setEmail(user.getEmail());//fullAds.setImage(ads.getImage());
         fullAds.setPhone(user.getPhone());
         fullAds.setPrice(ads.getPrice());
         fullAds.setTitle(ads.getTitle());
@@ -142,12 +150,11 @@ public class AdsServiceImpl implements AdsService {
     public CommentsDto deleteAdsComment(String adPk, Integer Id) {
         Comment adsComment = commentRepository.findAdsCommentByCreatedAtAndId(adPk, Id)
                 .orElseThrow(CommentNotFoundException::new);
-        if (commentRepository.findAdsCommentByCreatedAtAndId(adPk, Id).isPresent()) {
+        if (Objects.equals(adsComment.getAuthor(), getUser().getId() ) || getUser().getRoleEnum() == Role.ADMIN) {
             commentRepository.deleteById(Math.toIntExact(adsComment.getId()));
-
-            return CommentMapper.INSTANCE.dtoToCommentsDto(adsComment);
+            return commentMapper.dtoToCommentsDto(adsComment);
         }
-        throw new RuntimeException("Comment not found");
+        throw new ForbiddenException();
     }
 
     @Override

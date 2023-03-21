@@ -30,21 +30,18 @@ public class AdsController {
     }
 
     @ApiOperation(value = "addAds")
-    @PreAuthorize("hasRole('ADMIN') || hasRole('USER')")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> createAds(@RequestPart("properties") CreateAds ads, @RequestPart("image") MultipartFile image) {
         return ResponseEntity.ok(adsService.createAds(ads, image));
     }
 
     @ApiOperation(value = "getComments")
-    @PreAuthorize("hasRole('ADMIN') || hasRole('USER')")
     @GetMapping("/{ad_pk}/comments")
     public ResponseEntity<?> getComments(@PathVariable(value = "ad_pk") String adPk) {
         return ResponseEntity.ok(adsService.getComments(adPk));
     }
 
     @ApiOperation(value = "addComments")
-    @PreAuthorize("hasRole('ADMIN') || hasRole('USER')")
     @PostMapping("/{ad_pk}/comments")
     public ResponseEntity<CommentsDto> addAdsComment(@PathVariable(value = "ad_pk") Long adPk,
                                                      @RequestBody CommentsDto comment) {
@@ -52,21 +49,18 @@ public class AdsController {
     }
 
     @ApiOperation(value = "getFullAd")
-    @PreAuthorize("hasRole('ADMIN') || hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<FullAds> getFullAds(@PathVariable Integer id) {
         return ResponseEntity.ok(adsService.getFullAds(id));
     }
 
     @ApiOperation(value = "removeAds")
-    @PreAuthorize("hasRole('ADMIN') || hasRole('USER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> removeAds(@PathVariable Integer id) {
         return ResponseEntity.ok(adsService.removeAds(id));
     }
 
     @ApiOperation(value = "updateAds")
-    @PreAuthorize("hasRole('ADMIN') || hasRole('USER')")
     @PatchMapping("/{id}")
     public ResponseEntity<AdsDto> updateAds(@PathVariable(value = "id") Integer Id,
                                             @RequestBody CreateAds createAds) {
@@ -92,7 +86,6 @@ public class AdsController {
     }
 
     @ApiOperation(value = "updateComments")
-    @PreAuthorize("hasRole('ADMIN') || hasRole('USER')")
     @PatchMapping("/{ad_pk}/comments/{id}")
     public ResponseEntity<Comment> updateComment(@PathVariable(value = "ad_pk") String adPk,
                                                  @PathVariable(value = "id") Integer Id,

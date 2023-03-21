@@ -1,12 +1,21 @@
 package ru.skypro.homework.entity;
 
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import ru.skypro.homework.dto.Role;
+
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@NoArgsConstructor
 //@Table(name = "users_profiles")
-public class UserProfile {
+public class UserProfile  implements UserDetails  {
 
 
     @Id
@@ -28,6 +37,9 @@ public class UserProfile {
 
     @OneToMany(mappedBy="author")
     private Set<Ads> ads;
+
+    @Enumerated(EnumType.ORDINAL)
+    private Role roleEnum;
 
 
     public Long getId() {
@@ -78,6 +90,14 @@ public class UserProfile {
         this.ads = ads;
     }
 
+    public Role getRoleEnum() {
+        return roleEnum;
+    }
+
+    public void setRoleEnum(Role roleEnum) {
+        this.roleEnum = roleEnum;
+    }
+
     @Override
     public String toString() {
         return "UserProfile{" +
@@ -101,5 +121,40 @@ public class UserProfile {
     @Override
     public int hashCode() {
         return Objects.hash(id, email, firstName, lastName, phone, ads);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(Role.USER.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 }
