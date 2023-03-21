@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.util.Arrays;
 
 @Entity
-//@Table(name="image")
 public class Image {
 
     @Id
@@ -20,7 +19,7 @@ public class Image {
 
     @Lob
     @Column(name = "data")
-    @Type(type="org.hibernate.type.BinaryType")
+    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] data;
 
     public Image() {

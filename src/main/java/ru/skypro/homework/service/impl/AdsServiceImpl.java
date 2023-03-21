@@ -1,6 +1,7 @@
 package ru.skypro.homework.service.impl;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
@@ -27,20 +28,14 @@ import java.util.*;
 public class AdsServiceImpl implements AdsService, UtilWebSecurity {
 
     private final CommentRepository commentRepository;
-
-    private final AdsMapper adsMapper;
     private final AdsRepository adsRepository;
     private final UserProfileRepository userProfileRepository;
 
-    private final CommentMapper commentMapper;
 
-
-    public AdsServiceImpl(CommentRepository commentRepository, AdsMapper adsMapper, AdsRepository adsRepository, UserProfileRepository userProfileRepository, CommentMapper commentMapper) {
+    public AdsServiceImpl(CommentRepository commentRepository, AdsRepository adsRepository, UserProfileRepository userProfileRepository) {
         this.commentRepository = commentRepository;
-        this.adsMapper = adsMapper;
         this.adsRepository = adsRepository;
         this.userProfileRepository = userProfileRepository;
-        this.commentMapper = commentMapper;
     }
 
     @Override
@@ -77,10 +72,11 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
         if (Objects.equals(ads.getAuthor().getId(), getUser().getId()) || getUser().getRoleEnum() == Role.ADMIN) {
             adsRepository.deleteById(id);
 
-            return adsMapper.dtoToAdsDto(ads);
+            return AdsMapper.INSTANCE.dtoToAdsDto(ads);
         }
-         throw new ForbiddenException();
+        throw new ForbiddenException();
     }
+
 
     @Override
     public Comment updateComment(String adPk, Integer Id, Comment comment) {
@@ -92,6 +88,11 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
             return comment;
         }
         throw new ForbiddenException();
+    }
+
+    @Override
+    public List<Ads> getAdsMeUsingGET(UserDetails userDetails) {
+        return adsRepository.findAdsByAuthor(userDetails.getUsername());
     }
 
     @Override
@@ -131,10 +132,11 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
         return CommentMapper.INSTANCE.dtoToCommentsDto(adsComment);
     }
 
+
     @Override
     public FullAds getFullAds(Integer id) {
         Ads ads = adsRepository.findById(id).orElseThrow(AdsNotFoundException::new);
-        UserProfile user = userProfileRepository.findById(Math.toIntExact(ads.getAuthor().getId())).orElseThrow(UserNotFoundException::new);
+        UserProfile user = userProfileRepository.findById(Long.valueOf(Math.toIntExact(ads.getAuthor().getId()))).orElseThrow(UserNotFoundException::new);
         FullAds fullAds = new FullAds();
         fullAds.setAuthorFirstName(user.getFirstName());
         fullAds.setAuthorLastName(user.getLastName());
@@ -150,20 +152,16 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
     public CommentsDto deleteAdsComment(String adPk, Integer Id) {
         Comment adsComment = commentRepository.findAdsCommentByCreatedAtAndId(adPk, Id)
                 .orElseThrow(CommentNotFoundException::new);
-        if (Objects.equals(adsComment.getAuthor(), getUser().getId() ) || getUser().getRoleEnum() == Role.ADMIN) {
+        if (Objects.equals(adsComment.getAuthor(), getUser().getId()) || getUser().getRoleEnum() == Role.ADMIN) {
             commentRepository.deleteById(Math.toIntExact(adsComment.getId()));
-            return commentMapper.dtoToCommentsDto(adsComment);
+            return CommentMapper.INSTANCE.dtoToCommentsDto(adsComment);
         }
         throw new ForbiddenException();
     }
 
-    @Override
-    public ResponseEntity<?> getAdsMeUsingGET() {
-        return null;
-    }
 
     @Override
-    public List<Ads> findAdsByTitle(String title){
+    public List<Ads> findAdsByTitle(String title) {
         return adsRepository.findAdsByTitleLike(title);
     }
 }

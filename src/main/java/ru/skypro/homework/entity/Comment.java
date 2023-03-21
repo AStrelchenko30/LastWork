@@ -10,19 +10,14 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-   // @Column(name = "id")
     private Long id;
 
-   // @Column(name = "ads_id")
     private Long adsId;
 
-   // @Column(name = "user_profile_id")
     private Long author;
 
-  //  @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-  //  @Column(name = "text")
     private String text;
 
     public Comment() {

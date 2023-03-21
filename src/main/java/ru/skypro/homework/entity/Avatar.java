@@ -15,15 +15,12 @@ public class Avatar {
     private byte[] data;
     @OneToOne
     private UserProfile userProfile;
-
     public void setData(byte[] data) {
         this.data = data;
     }
-
     public byte[] getData() {
         return data;
     }
-
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
     }

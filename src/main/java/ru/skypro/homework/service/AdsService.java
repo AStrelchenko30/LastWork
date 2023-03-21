@@ -1,6 +1,7 @@
 package ru.skypro.homework.service;
 
-import org.springframework.http.ResponseEntity;
+import io.swagger.io.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
 import ru.skypro.homework.entity.Ads;
@@ -31,6 +32,7 @@ public interface AdsService {
 
     Comment updateComment(String adPk, Integer Id, Comment comment);
 
-    ResponseEntity<?> getAdsMeUsingGET();
+    List<Ads> getAdsMeUsingGET(UserDetails userDetails);
+
     List<Ads> findAdsByTitle(String title);
 }

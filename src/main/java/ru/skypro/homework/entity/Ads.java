@@ -15,13 +15,9 @@ public class Ads {
     @JoinColumn(name = "user_profile_id")
     private UserProfile author;
 
-   // @Column(name = "title")
     private String title;
 
-   // @Column(name = "price")
     private int price;
-
-   // @Column(name = "description")
 
     private String description;
 
@@ -30,7 +26,6 @@ public class Ads {
     private Image image;
 
     public Ads() {
-
     }
 
     public Ads(Integer id, UserProfile author, String title, int price, String description, Image image) {
