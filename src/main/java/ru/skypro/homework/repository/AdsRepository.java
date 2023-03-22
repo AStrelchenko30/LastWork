@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
+import ru.skypro.homework.dto.AdsDto;
 import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.UserProfile;
 
@@ -24,4 +25,5 @@ public interface AdsRepository extends JpaRepository<Ads, Integer> {
     List<Ads> findAllByTitle(String title);
    List<Ads> findAdsByTitleLike(String title);
    List<Ads> findAdsByAuthor(String author);
+   Ads findAdsById(Long id);
 }

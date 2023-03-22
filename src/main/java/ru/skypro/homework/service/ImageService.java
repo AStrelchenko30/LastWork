@@ -1,7 +1,5 @@
 package ru.skypro.homework.service;
 
-import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.entity.Image;
 
 public interface ImageService {
@@ -12,4 +10,6 @@ public interface ImageService {
     public Image findImage(Long id);
 
     public Image deleteImage(Long id);
+
+    public Image updateAdsImage(Long id, Image image);
 }
