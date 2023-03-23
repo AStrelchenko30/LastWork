@@ -10,9 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
-import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Comment;
-import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.service.AdsService;
 import ru.skypro.homework.service.impl.ImageServiceImpl;
 
@@ -99,15 +97,10 @@ public class AdsController {
         return ResponseEntity.ok(adsService.updateComment(adPk, Id, comment));
     }
 
+
     @ApiOperation(value = "getAdsMe")
     @GetMapping("/me")
-    public ResponseEntity<List<Ads>> getAdsMeUsingGET(@PathVariable UserDetails userDetails) {
-        return ResponseEntity.ok(adsService.getAdsMeUsingGET(userDetails));
-    }
-
-    @ApiOperation(value = "updateAdsImage")
-    @PatchMapping(value = "/image/{id}")
-    public ResponseEntity<Image> updateAdsImage(@PathVariable Long id, @RequestParam Image image) {
-        return ResponseEntity.ok(imageService.updateAdsImage(id, image));
+    public ResponseEntity<ResponseWrapperAds> getAdsMeUsingGET() {
+        return ResponseEntity.ok().build();
     }
 }
