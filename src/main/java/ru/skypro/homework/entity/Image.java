@@ -1,16 +1,23 @@
 package ru.skypro.homework.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Arrays;
+import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@ToString
 public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    String id;
 
     @Column(name = "file_size")
     private long fileSize;
@@ -25,10 +32,11 @@ public class Image {
     public Image() {
     }
 
-    @OneToOne(mappedBy = "image")
+    @OneToOne(cascade = CascadeType.REFRESH)
+    //@OneToOne(mappedBy = "image")
     private Ads ads;
 
-    public Image(Long id, long fileSize, String mediaType, byte[] data, Ads ads) {
+    public Image(String id, long fileSize, String mediaType, byte[] data, Ads ads) {
         this.id = id;
         this.fileSize = fileSize;
         this.mediaType = mediaType;
@@ -37,53 +45,17 @@ public class Image {
     }
 
     @Override
-    public String toString() {
-        return "Image{" +
-                "id=" + id +
-                ", fileSize=" + fileSize +
-                ", mediaType='" + mediaType + '\'' +
-                ", data=" + Arrays.toString(data) +
-                ", ads=" + ads +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Image image = (Image) o;
+        return fileSize == image.fileSize && id.equals(image.id) && mediaType.equals(image.mediaType) && Arrays.equals(data, image.data) && ads.equals(image.ads);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public long getFileSize() {
-        return fileSize;
-    }
-
-    public void setFileSize(long fileSize) {
-        this.fileSize = fileSize;
-    }
-
-    public String getMediaType() {
-        return mediaType;
-    }
-
-    public void setMediaType(String mediaType) {
-        this.mediaType = mediaType;
-    }
-
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
-    }
-
-    public Ads getAds() {
-        return ads;
-    }
-
-    public void setAds(Ads ads) {
-        this.ads = ads;
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, fileSize, mediaType, ads);
+        result = 31 * result + Arrays.hashCode(data);
+        return result;
     }
 }

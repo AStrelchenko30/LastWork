@@ -15,16 +15,17 @@ import ru.skypro.homework.entity.UserProfile;
 import ru.skypro.homework.service.AuthService;
 import ru.skypro.homework.service.ImageService;
 import ru.skypro.homework.service.UserProfileService;
+import ru.skypro.homework.service.impl.ImageServiceImpl;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/users")
 public class UserController  {
     private final UserProfileService userProfileService;
-    private final ImageService imageService;
+    private final ImageServiceImpl imageService;
     private final AuthService authService;
 
-    public UserController(UserProfileService userProfileService, ImageService imageService, AuthService authService) {
+    public UserController(UserProfileService userProfileService, ImageServiceImpl imageService, AuthService authService) {
         this.userProfileService = userProfileService;
         this.imageService = imageService;
         this.authService = authService;
@@ -52,12 +53,6 @@ public class UserController  {
         return ResponseEntity.ok(userProfileService.updateUser(userProfile));
     }
 
-
-    @ApiOperation(value = "updateUserImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PatchMapping("/me/image")
-    public ResponseEntity<Image> updateUserImage(@RequestPart Image image) {
-               return ResponseEntity.ok(imageService.updateImage(image));
-    }
 
 
 }

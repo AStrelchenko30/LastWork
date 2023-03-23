@@ -1,9 +1,11 @@
 package ru.skypro.homework.service.impl;
 
+
 import org.webjars.NotFoundException;
 import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.entity.UserProfile;
 import ru.skypro.homework.mappers.UserMapper;
+
 import ru.skypro.homework.repository.UserProfileRepository;
 import ru.skypro.homework.service.UserProfileService;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     public UserProfileServiceImpl(UserProfileRepository userProfileRepository) {
         this.userProfileRepository = userProfileRepository;
+
     }
 
     @Override
@@ -52,8 +55,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public List<UserProfile> getAllUser() {
-            return userProfileRepository.findAll();
-        }
+        return userProfileRepository.findAll();
+    }
 
     @Override
     public UserProfile deleteUser(Long id) {
@@ -62,5 +65,6 @@ public class UserProfileServiceImpl implements UserProfileService {
         }
         throw new NotFoundException("User not found");
     }
+
 
 }

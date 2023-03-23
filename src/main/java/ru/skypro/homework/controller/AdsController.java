@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
 import ru.skypro.homework.entity.Comment;
 import ru.skypro.homework.service.AdsService;
+import ru.skypro.homework.service.impl.ImageServiceImpl;
 
 
 @CrossOrigin(value = "http://localhost:3000")
@@ -22,6 +23,8 @@ import ru.skypro.homework.service.AdsService;
 public class AdsController {
 
     private final AdsService adsService;
+
+    private final ImageServiceImpl imageService;
 
 
     @GetMapping
@@ -100,4 +103,6 @@ public class AdsController {
     public ResponseEntity<ResponseWrapperAds> getAdsMeUsingGET() {
         return ResponseEntity.ok().build();
     }
+
+
 }

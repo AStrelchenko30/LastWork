@@ -1,12 +1,12 @@
 package ru.skypro.homework.service.impl;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
 import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Comment;
+
 import ru.skypro.homework.entity.UserProfile;
 import ru.skypro.homework.exceptions.AdsNotFoundException;
 import ru.skypro.homework.exceptions.CommentNotFoundException;
@@ -31,11 +31,14 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
     private final AdsRepository adsRepository;
     private final UserProfileRepository userProfileRepository;
 
+    private final ImageServiceImpl imageService;
 
-    public AdsServiceImpl(CommentRepository commentRepository, AdsRepository adsRepository, UserProfileRepository userProfileRepository) {
+
+    public AdsServiceImpl(CommentRepository commentRepository, AdsRepository adsRepository, UserProfileRepository userProfileRepository, ImageServiceImpl imageService) {
         this.commentRepository = commentRepository;
         this.adsRepository = adsRepository;
         this.userProfileRepository = userProfileRepository;
+        this.imageService = imageService;
     }
 
     @Override
@@ -51,11 +54,14 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
     @Override
     public AdsDto createAds(CreateAds ads, MultipartFile image) {
         Ads createAds = new Ads();
-        createAds.setDescription(createAds.getDescription());
-        createAds.setPrice(createAds.getPrice());
+        createAds.setDescription(ads.getDescription());
+        createAds.setPrice(ads.getPrice());
+        createAds.setTitle(ads.getTitle());
+        createAds.setImage(imageService.savePhoto(image));
         adsRepository.save(createAds);
         return AdsMapper.INSTANCE.dtoToAdsDto(createAds);
     }
+
 
     @Override
     public CommentsDto getAdsComment(String adPk, Integer Id) {
@@ -90,6 +96,15 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
         throw new ForbiddenException();
     }
 
+    public Ads updateAdsImage(Integer id, MultipartFile file) {
+        Ads oldAds = adsRepository.findById(id).orElseThrow(CommentNotFoundException::new);
+        if (Objects.equals(oldAds.getAuthor(), getUser().getId()) || getUser().getRoleEnum() == Role.ADMIN) {
+            oldAds.setImage(imageService.savePhoto(file));
+            return oldAds;
+        }
+        throw new ForbiddenException();
+    }
+
     @Override
     public List<Ads> getAdsMeUsingGET(UserDetails userDetails) {
         return adsRepository.findAdsByAuthor(userDetails.getUsername());
@@ -109,6 +124,7 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
         }
         throw new AdsNotFoundException();
     }
+
 
     @Override
     public ResponseWrapperComment getComments(String adPk) {
@@ -141,7 +157,8 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
         fullAds.setAuthorFirstName(user.getFirstName());
         fullAds.setAuthorLastName(user.getLastName());
         fullAds.setDescription(ads.getDescription());
-        fullAds.setEmail(user.getEmail());//fullAds.setImage(ads.getImage());
+        fullAds.setEmail(user.getEmail());
+        fullAds.setImage(ads.getImage());
         fullAds.setPhone(user.getPhone());
         fullAds.setPrice(ads.getPrice());
         fullAds.setTitle(ads.getTitle());
@@ -164,4 +181,5 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
     public List<Ads> findAdsByTitle(String title) {
         return adsRepository.findAdsByTitleLike(title);
     }
+
 }
