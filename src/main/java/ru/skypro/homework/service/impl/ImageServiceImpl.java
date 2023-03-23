@@ -1,7 +1,15 @@
 package ru.skypro.homework.service.impl;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
+import ru.skypro.homework.entity.Ads;
+import ru.skypro.homework.dto.AdsDto;
+import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.mappers.ImageMapper;
@@ -57,6 +65,15 @@ public class ImageServiceImpl implements ImageService {
         }
         throw new NotFoundException("Image not found");
     }
+
+
+    @Override
+    public byte[] getPhoto(Long id) {
+
+        Image image = imageRepository.getReferenceById(id);
+        return image.getData();
+    }
+
 
     @Override
     public Image updateAdsImage(Long id, Image image) {

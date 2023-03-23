@@ -14,6 +14,7 @@ public interface AdsService {
 
     ResponseWrapperAds getAllAds();
 
+
     AdsDto createAds(CreateAds ads, MultipartFile image);
 
     ResponseWrapperComment getComments(String adPk);
@@ -35,4 +36,7 @@ public interface AdsService {
     List<Ads> getAdsMeUsingGET(UserDetails userDetails);
 
     List<Ads> findAdsByTitle(String title);
+
+    Ads updateAdsImage(Integer id, MultipartFile file);
+
 }

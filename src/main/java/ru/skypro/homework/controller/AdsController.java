@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,9 +14,7 @@ import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Comment;
 import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.service.AdsService;
-import ru.skypro.homework.service.ImageService;
-
-import java.util.List;
+import ru.skypro.homework.service.impl.ImageServiceImpl;
 
 
 @CrossOrigin(value = "http://localhost:3000")
@@ -28,7 +25,8 @@ import java.util.List;
 public class AdsController {
 
     private final AdsService adsService;
-    private final ImageService imageService;
+
+    private final ImageServiceImpl imageService;
 
 
     @GetMapping
@@ -80,7 +78,7 @@ public class AdsController {
     @GetMapping("/{ad_pk}/comments/{id}")
     public ResponseEntity<CommentsDto> getAdsComment(@PathVariable(value = "ad_pk") String adPk,
                                                      @PathVariable(value = "id") Integer Id) {
-        return ResponseEntity.ok(adsService.getAdsComment(adPk, Id));
+      return ResponseEntity.ok(adsService.getAdsComment(adPk, Id));
 
     }
 
