@@ -7,6 +7,8 @@ import ru.skypro.homework.entity.Image;
 public interface ImageService {
     Image createImage(Image image);
 
+    Image updateAdsImage(Long id, Image image);
+
     Image savePhoto(MultipartFile file);
 
     // public ResponseEntity<String> updateImage(MultipartFile image);

@@ -1,21 +1,17 @@
 package ru.skypro.homework.service.impl;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
-import ru.skypro.homework.entity.Ads;
-import ru.skypro.homework.dto.AdsDto;
-import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.mappers.ImageMapper;
 import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.repository.ImageRepository;
 import ru.skypro.homework.service.ImageService;
+
+import java.io.IOException;
+import java.util.UUID;
 
 @Service
 public class ImageServiceImpl implements ImageService {
@@ -36,7 +32,7 @@ public class ImageServiceImpl implements ImageService {
         throw new NotFoundException("Image already exist");
     }
 
-    @Override
+  /*  @Override
     public Image updateImage(Image imageNew) {
         if (imageRepository.findById(imageNew.getId()).isPresent()) {
             Image imageOld = imageRepository.findById(imageNew.getId()).get();
@@ -49,6 +45,7 @@ public class ImageServiceImpl implements ImageService {
         }
         throw new NotFoundException("Image not found");
     }
+   */
 
     @Override
     public Image findImage(Long id) {
@@ -80,5 +77,19 @@ public class ImageServiceImpl implements ImageService {
         Ads imageAds = adsRepository.findAdsById(id);
         imageAds.setImage(image);
         return ImageMapper.INSTANCE.dtoToImage(image);
+    }
+
+    @Override
+    public Image savePhoto(MultipartFile image) {
+        Image imageEntity = new Image();
+        try {
+            byte[] bytes = image.getBytes();
+            imageEntity.setData(bytes);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        imageEntity.setId(UUID.randomUUID().toString());
+
+        return imageRepository.saveAndFlush(imageEntity);
     }
 }
