@@ -19,13 +19,13 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     String id;
 
-    @Column(name = "file_size")
+  //  @Column(name = "file_size")
     private long fileSize;
-    @Column(name = "media_type")
+ //   @Column(name = "media_type")
     private String mediaType;
 
     @Lob
-    @Column(name = "data")
+  //  @Column(name = "data")
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] data;
 
