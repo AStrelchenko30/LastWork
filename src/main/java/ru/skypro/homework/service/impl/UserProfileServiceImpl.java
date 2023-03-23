@@ -41,8 +41,10 @@ public class UserProfileServiceImpl implements UserProfileService {
             userProfileOld.setAds(userProfileNew.getAds());
             userProfileRepository.save(userProfileOld);
             return UserMapper.INSTANCE.dtoToUserDto(userProfileNew);
-        }
-        throw new NotFoundException("User not found");
+        } else if (userProfileRepository.findById(userProfileNew.getId()).isEmpty()) {
+           userProfileRepository.save(userProfileNew);
+        } return UserMapper.INSTANCE.dtoToUserDto(userProfileNew);
+        //        throw new NotFoundException("User not found");
     }
 
     @Override
