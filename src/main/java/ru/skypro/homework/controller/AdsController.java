@@ -109,9 +109,11 @@ public class AdsController {
         return ResponseEntity.ok(adsService.getAdsMeUsingGET(userDetails));
     }
 
-    @ApiOperation(value = "updateAdsImage")
+  /*  @ApiOperation(value = "updateAdsImage")
     @GetMapping("/image")
     public ResponseEntity<String> updateAdsImage(@RequestParam MultipartFile image) {
         return ResponseEntity.ok(imageService.savePhoto(image));
     }
+
+   */
 }

@@ -4,9 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
 import ru.skypro.homework.entity.Ads;
-import ru.skypro.homework.entity.Avatar;
 import ru.skypro.homework.entity.Image;
-import ru.skypro.homework.mappers.ImageMapper;
 import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.repository.ImageRepository;
 import ru.skypro.homework.service.ImageService;
@@ -73,7 +71,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
 
-    @Override
+  /*  @Override
     public Image updateAdsImage(Long id, MultipartFile image) {
         Ads imageAds = adsRepository.findAdsById(id);
         try {
@@ -81,15 +79,22 @@ public class ImageServiceImpl implements ImageService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        imageAds.setId(UUID.randomUUID().toString());
+        Image savedImage = imageRepository.saveAndFlush(imageAds)
         return ImageMapper.INSTANCE.dtoToImage(image);
     }
 
+   */
+
     @Override
-    public String savePhoto(MultipartFile image) throws RuntimeException {
+    public String updateAdsImage(MultipartFile image, Long id) throws RuntimeException {
         Image entity = new Image();
         try {
             byte[] bytes = image.getBytes();
             entity.setImage(bytes);
+            Ads ads = adsRepository.findAdsById(id);
+            ads.setImage(bytes);
+            adsRepository.save(ads);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

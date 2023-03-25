@@ -15,7 +15,6 @@ import ru.skypro.homework.service.AuthService;
 public class AuthServiceImpl implements AuthService {
 
     private final UserDetailsManager manager;
-
     private final PasswordEncoder encoder;
 
     public AuthServiceImpl(UserDetailsManager manager) {

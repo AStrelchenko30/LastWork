@@ -49,15 +49,15 @@ public class UserController {
     }
 
     @ApiOperation(value = "updateUser")
-    @PatchMapping(value = "/me", produces = {MediaType.IMAGE_PNG_VALUE})
+    @PatchMapping(value = "/me", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<UserDto> updateUser(@RequestBody UserProfile userProfile) {
         return ResponseEntity.ok(userProfileService.updateUser(userProfile));
     }
 
     @ApiOperation(value = "updateAdsImage")
     @PatchMapping(value = "/image/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> updateAdsImage(@RequestParam MultipartFile image) {
-        return ResponseEntity.ok(imageService.savePhoto(image));
+    public ResponseEntity<String> updateAdsImage(@RequestParam MultipartFile image, @PathVariable Long id) {
+        return ResponseEntity.ok(imageService.updateAdsImage(image,id));
     }
 
     @PostMapping(value = "/updateAvatarImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
