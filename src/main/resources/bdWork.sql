@@ -4,17 +4,18 @@
 CREATE TABLE user_profiles
 (
     id        SERIAL primary key not null,
-    email     VARCHAR,
-    firstName VARCHAR,
-    lastName  VARCHAR,
-    phone     VARCHAR
+    email     TEXT,
+    firstName TEXT,
+    lastName  TEXT,
+    phone     TEXT
 );
 
 CREATE TABLE avatar
 (
-    id int8 primary key not null,
-    data bytea,
-    userProfile_id BIGSERIAL references user_profiles (id)
+    id             SERIAL primary key not null,
+    data           bytea,
+    userProfile_id BIGSERIAL references user_profiles (id),
+    avatar_id      BIGSERIAL references avatar (id)
 );
 
 CREATE TABLE image
@@ -22,15 +23,15 @@ CREATE TABLE image
     id        SERIAL primary key not null,
     data      bytea,
     fileSize  BIGSERIAL,
-    mediaType VARCHAR
+    mediaType TEXT
 );
 
 CREATE TABLE ads
 (
     id              SERIAL primary key not null,
-    description     VARCHAR,
+    description     TEXT,
     price           INTEGER,
-    title           VARCHAR,
+    title           TEXT,
     user_profile_id BIGSERIAL references user_profiles (id),
     image_id        BIGSERIAL references image (id)
 );
@@ -41,7 +42,7 @@ CREATE TABLE comments
     ads_id          BIGSERIAL,
     user_profile_id BIGSERIAL,
     created_at      TIMESTAMP,
-    text            VARCHAR
+    text            TEXT
 );
 
 

@@ -77,7 +77,7 @@ public class AdsController {
     }
 
     @ApiOperation(value = "getComments")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/{ad_pk}/comments/{id}")
     public ResponseEntity<CommentsDto> getAdsComment(@PathVariable(value = "ad_pk") String adPk,
                                                      @PathVariable(value = "id") Integer Id) {
@@ -86,7 +86,7 @@ public class AdsController {
     }
 
     @ApiOperation(value = "deleteComments")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @DeleteMapping("/{ad_pk}/comments/{id}")
     public ResponseEntity<CommentsDto> deleteAdsComment(@PathVariable(value = "ad_pk") String adPk,
                                                         @PathVariable(value = "id") Integer Id) {
@@ -111,7 +111,7 @@ public class AdsController {
 
     @ApiOperation(value = "updateAdsImage")
     @GetMapping("/image")
-    public ResponseEntity<Image> updateAdsImage(@RequestParam MultipartFile image) {
+    public ResponseEntity<String> updateAdsImage(@RequestParam MultipartFile image) {
         return ResponseEntity.ok(imageService.savePhoto(image));
     }
 }

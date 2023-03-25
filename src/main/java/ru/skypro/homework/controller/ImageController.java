@@ -18,19 +18,12 @@ import java.util.UUID;
 @CrossOrigin(value = "http://localhost:3000")
 public class ImageController {
 
-
-public final ImageServiceImpl service;
+    private final ImageServiceImpl service;
 
     public ImageController(ImageServiceImpl service) {
         this.service = service;
     }
 
-    /* @ApiOperation(value = "updateAdsImage")
-            @PostMapping (value = "/image/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-            public ResponseEntity<String> updateAdsImage(@PathVariable Integer id, @RequestParam MultipartFile image) {
-                return ResponseEntity.ok().build();
-
-            }*/
     @GetMapping(value = "/images/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
     public byte[] getImage(@PathVariable("id") Long id) {
         return service.getPhoto(id);

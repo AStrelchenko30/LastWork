@@ -3,6 +3,7 @@ package ru.skypro.homework.entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -17,23 +18,18 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    String id;
-
-  //  @Column(name = "file_size")
+    private String id;
     private long fileSize;
- //   @Column(name = "media_type")
     private String mediaType;
 
     @Lob
-  //  @Column(name = "data")
-    @Type(type = "org.hibernate.type.BinaryType")
+ //   @Type(type = "org.hibernate.type.BinaryType")
     private byte[] data;
 
     public Image() {
     }
 
     @OneToOne(cascade = CascadeType.REFRESH)
-    //@OneToOne(mappedBy = "image")
     private Ads ads;
 
     public Image(String id, long fileSize, String mediaType, byte[] data, Ads ads) {
@@ -47,15 +43,41 @@ public class Image {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Image image = (Image) o;
-        return fileSize == image.fileSize && id.equals(image.id) && mediaType.equals(image.mediaType) && Arrays.equals(data, image.data) && ads.equals(image.ads);
+        return id != null && Objects.equals(id,image.id);
+       // return fileSize == image.fileSize && id.equals(image.id) && mediaType.equals(image.mediaType) && Arrays.equals(data, image.data) && ads.equals(image.ads);
     }
 
-    @Override
+   /* @Override
     public int hashCode() {
         int result = Objects.hash(id, fileSize, mediaType, ads);
         result = 31 * result + Arrays.hashCode(data);
         return result;
     }
+        */
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    public String getId(){
+        return this.id;
+    }
+    public byte[] getImage(){
+        return this.data;
+    }
+
+    public void setId(String id){
+        this.id=id;
+    }
+
+    public void setImage(byte[] data){
+        this.data=data;
+    }
+    public String toString() {
+        return "AdsEntity(id=" + this.getId() + ", image=" + java.util.Arrays.toString(this.getImage()) + ")";
+    }
+
 }

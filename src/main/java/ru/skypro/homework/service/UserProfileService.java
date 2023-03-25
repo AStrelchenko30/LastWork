@@ -1,5 +1,6 @@
 package ru.skypro.homework.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.UserDto;
 import ru.skypro.homework.entity.UserProfile;
 
@@ -11,4 +12,6 @@ public interface UserProfileService {
     public UserDto findUser(Long id);
     public UserProfile deleteUser(Long id);
     public List<UserProfile> getAllUser();
+
+    String saveAvatar(MultipartFile image);
 }

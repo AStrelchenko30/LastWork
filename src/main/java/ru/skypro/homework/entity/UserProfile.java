@@ -20,21 +20,16 @@ public class UserProfile  implements UserDetails  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  //  @Column(name = "id")
+
     private Long id;
-
-   // @Column(name = "email")
     private String email;
-
-  //  @Column(name = "first_name")
     private String firstName;
-
-  //  @Column(name = "last_name")
     private String lastName;
-
-   // @Column(name = "phone")
     private String phone;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "avatar_id", referencedColumnName = "id")
+    private Avatar avatar;
     @OneToMany(mappedBy="author")
     private Set<Ads> ads;
 

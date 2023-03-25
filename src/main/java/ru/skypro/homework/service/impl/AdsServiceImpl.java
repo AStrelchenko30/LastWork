@@ -14,6 +14,7 @@ import ru.skypro.homework.exceptions.ForbiddenException;
 import ru.skypro.homework.exceptions.UserNotFoundException;
 import ru.skypro.homework.mappers.AdsMapper;
 import ru.skypro.homework.mappers.CommentMapper;
+import ru.skypro.homework.mappers.ImageMapper;
 import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.repository.UserProfileRepository;
@@ -21,6 +22,7 @@ import ru.skypro.homework.security.UtilWebSecurity;
 import ru.skypro.homework.service.AdsService;
 
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -57,7 +59,11 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
         createAds.setDescription(ads.getDescription());
         createAds.setPrice(ads.getPrice());
         createAds.setTitle(ads.getTitle());
-        createAds.setImage(imageService.savePhoto(image));
+        try {
+            createAds.setImage(image.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         adsRepository.save(createAds);
         return AdsMapper.INSTANCE.dtoToAdsDto(createAds);
     }
@@ -99,7 +105,11 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
     public Ads updateAdsImage(Integer id, MultipartFile file) {
         Ads oldAds = adsRepository.findById(id).orElseThrow(CommentNotFoundException::new);
         if (Objects.equals(oldAds.getAuthor(), getUser().getId()) || getUser().getRoleEnum() == Role.ADMIN) {
-            oldAds.setImage(imageService.savePhoto(file));
+            try {
+                oldAds.setImage(file.getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             return oldAds;
         }
         throw new ForbiddenException();
@@ -158,7 +168,7 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
         fullAds.setAuthorLastName(user.getLastName());
         fullAds.setDescription(ads.getDescription());
         fullAds.setEmail(user.getEmail());
-        fullAds.setImage(ads.getImage());
+        fullAds.setImage(AdsMapper.INSTANCE.dtoToAdsDto(ads).getImage());
         fullAds.setPhone(user.getPhone());
         fullAds.setPrice(ads.getPrice());
         fullAds.setTitle(ads.getTitle());

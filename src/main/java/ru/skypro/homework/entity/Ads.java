@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-//@Table(name = "ads")
+
 
 public class Ads {
     @Id
@@ -21,14 +21,14 @@ public class Ads {
 
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
+   // @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
-    private Image image;
+    private byte[] image;
 
     public Ads() {
     }
 
-    public Ads(Integer id, UserProfile author, String title, int price, String description, Image image) {
+    public Ads(Integer id, UserProfile author, String title, int price, String description, byte[] image) {
         this.id = id;
         this.author = author;
         this.title = title;
@@ -77,11 +77,11 @@ public class Ads {
         this.description = description;
     }
 
-    public Image getImage() {
-        return image;
+    public void getImage() {
+        this.image = image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 
