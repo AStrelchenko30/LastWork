@@ -1,11 +1,14 @@
 package ru.skypro.homework.entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-
-
+@Data
+@NoArgsConstructor
 public class Ads {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +28,10 @@ public class Ads {
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private byte[] image;
 
-    public Ads() {
+    /*  public Ads() {
     }
 
-    public Ads(Integer id, UserProfile author, String title, int price, String description, byte[] image) {
+  public Ads(Integer id, UserProfile author, String title, int price, String description, byte[] image) {
         this.id = id;
         this.author = author;
         this.title = title;
@@ -84,7 +87,7 @@ public class Ads {
     public void setImage(byte[] image) {
         this.image = image;
     }
-
+*/
     @Override
     public String toString() {
         return "Ads{" +

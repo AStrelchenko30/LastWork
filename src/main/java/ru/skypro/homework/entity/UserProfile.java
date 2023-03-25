@@ -1,5 +1,6 @@
 package ru.skypro.homework.entity;
 
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,6 +14,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Data
 @NoArgsConstructor
 //@Table(name = "users_profiles")
 public class UserProfile  implements UserDetails  {
@@ -37,7 +39,7 @@ public class UserProfile  implements UserDetails  {
     private Role roleEnum;
 
 
-    public Long getId() {
+   /* public Long getId() {
         return id;
     }
 
@@ -92,7 +94,7 @@ public class UserProfile  implements UserDetails  {
     public void setRoleEnum(Role roleEnum) {
         this.roleEnum = roleEnum;
     }
-
+*/
     @Override
     public String toString() {
         return "UserProfile{" +
