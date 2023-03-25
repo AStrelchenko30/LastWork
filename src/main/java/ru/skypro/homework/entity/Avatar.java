@@ -17,6 +17,7 @@ public class Avatar {
     @Id
     private String id;
     @Lob
+    @Column(name = "data")
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] image;
 

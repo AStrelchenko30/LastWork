@@ -23,7 +23,7 @@ public class Image {
     private String mediaType;
 
     @Lob
- //   @Type(type = "org.hibernate.type.BinaryType")
+    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] data;
 
     public Image() {
@@ -46,8 +46,8 @@ public class Image {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Image image = (Image) o;
-        return id != null && Objects.equals(id,image.id);
-       // return fileSize == image.fileSize && id.equals(image.id) && mediaType.equals(image.mediaType) && Arrays.equals(data, image.data) && ads.equals(image.ads);
+        return id != null && Objects.equals(id, image.id);
+        // return fileSize == image.fileSize && id.equals(image.id) && mediaType.equals(image.mediaType) && Arrays.equals(data, image.data) && ads.equals(image.ads);
     }
 
    /* @Override
@@ -63,20 +63,22 @@ public class Image {
         return getClass().hashCode();
     }
 
-    public String getId(){
+    public String getId() {
         return this.id;
     }
-    public byte[] getImage(){
+
+    public byte[] getImage() {
         return this.data;
     }
 
-    public void setId(String id){
-        this.id=id;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setImage(byte[] data){
-        this.data=data;
+    public void setImage(byte[] data) {
+        this.data = data;
     }
+
     public String toString() {
         return "AdsEntity(id=" + this.getId() + ", image=" + java.util.Arrays.toString(this.getImage()) + ")";
     }

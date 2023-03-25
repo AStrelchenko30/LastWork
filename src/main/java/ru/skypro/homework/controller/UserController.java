@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "updateUser")
-    @PatchMapping(value = "/me", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PatchMapping(value = "/me")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserProfile userProfile) {
         return ResponseEntity.ok(userProfileService.updateUser(userProfile));
     }
