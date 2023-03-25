@@ -46,6 +46,7 @@ public class UserProfileServiceImpl implements UserProfileService {
             userProfileOld.setLastName(userProfileNew.getLastName());
             userProfileOld.setPhone(userProfileNew.getPhone());
             userProfileOld.setAds(userProfileNew.getAds());
+            userProfileOld.setAvatar(userProfileNew.getAvatar());
             userProfileRepository.save(userProfileOld);
             return UserMapper.INSTANCE.dtoToUserDto(userProfileNew);
         } else if (userProfileRepository.findById(userProfileNew.getId()).isEmpty()) {

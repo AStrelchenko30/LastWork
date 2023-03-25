@@ -32,13 +32,14 @@ public class Image {
     @OneToOne(cascade = CascadeType.REFRESH)
     private Ads ads;
 
-    public Image(String id, long fileSize, String mediaType, byte[] data, Ads ads) {
+    /*  public Image(String id, long fileSize, String mediaType, byte[] data, Ads ads) {
         this.id = id;
         this.fileSize = fileSize;
         this.mediaType = mediaType;
         this.data = data;
         this.ads = ads;
     }
+         */
 
     @Override
     public boolean equals(Object o) {

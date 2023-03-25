@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "updateUser")
-    @PatchMapping("/me")
+    @PatchMapping(value = "/me", produces = {MediaType.IMAGE_PNG_VALUE})
     public ResponseEntity<UserDto> updateUser(@RequestBody UserProfile userProfile) {
         return ResponseEntity.ok(userProfileService.updateUser(userProfile));
     }

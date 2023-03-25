@@ -7,7 +7,8 @@ CREATE TABLE user_profiles
     email     TEXT,
     firstName TEXT,
     lastName  TEXT,
-    phone     TEXT
+    phone     TEXT,
+
 );
 
 CREATE TABLE avatar
