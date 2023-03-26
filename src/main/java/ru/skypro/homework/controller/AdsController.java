@@ -29,7 +29,7 @@ public class AdsController {
 
     private final AdsService adsService;
 
-    private final ImageServiceImpl imageService;
+   // private final ImageServiceImpl imageService;
 
 
     @GetMapping
