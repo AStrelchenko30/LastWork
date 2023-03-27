@@ -14,7 +14,6 @@ import ru.skypro.homework.exceptions.ForbiddenException;
 import ru.skypro.homework.exceptions.UserNotFoundException;
 import ru.skypro.homework.mappers.AdsMapper;
 import ru.skypro.homework.mappers.CommentMapper;
-import ru.skypro.homework.mappers.ImageMapper;
 import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.repository.CommentRepository;
 import ru.skypro.homework.repository.UserProfileRepository;
@@ -102,7 +101,7 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
         throw new ForbiddenException();
     }
 
-    public Ads updateAdsImage(Integer id, MultipartFile file) {
+ /*   public Ads updateAdsImage(Integer id, MultipartFile file) {
         Ads oldAds = adsRepository.findById(id).orElseThrow(CommentNotFoundException::new);
         if (Objects.equals(oldAds.getAuthor(), getUser().getId()) || getUser().getRoleEnum() == Role.ADMIN) {
             try {
@@ -114,6 +113,8 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
         }
         throw new ForbiddenException();
     }
+
+  */
 
     @Override
     public List<Ads> getAdsMeUsingGET(UserDetails userDetails) {

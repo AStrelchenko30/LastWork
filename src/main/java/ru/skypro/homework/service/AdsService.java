@@ -1,6 +1,5 @@
 package ru.skypro.homework.service;
 
-import io.swagger.io.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
@@ -37,6 +36,5 @@ public interface AdsService {
 
     List<Ads> findAdsByTitle(String title);
 
-    Ads updateAdsImage(Integer id, MultipartFile file);
 
 }

@@ -7,5 +7,4 @@ import ru.skypro.homework.entity.Image;
 @Repository
 public interface ImageRepository extends JpaRepository<Image, Long> {
 
-
 }

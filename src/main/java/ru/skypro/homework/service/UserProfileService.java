@@ -8,10 +8,14 @@ import java.util.List;
 
 public interface UserProfileService {
     public UserProfile createUser(UserProfile userProfile);
+
     public UserDto updateUser(UserProfile userProfileNew);
+
     public UserDto findUser(Long id);
+
     public UserProfile deleteUser(Long id);
+
     public List<UserProfile> getAllUser();
 
-    String saveAvatar(MultipartFile image);
+    String updateUserAvatar(MultipartFile image, Long id) throws RuntimeException;
 }

@@ -49,11 +49,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public boolean changePassword(String userProfileName, NewPassword newPassword){
-            if (login(userProfileName,newPassword.getCurrentPassword())) {
-                manager.changePassword(newPassword.getCurrentPassword(),newPassword.getNewPassword());
-                return true;
-            }
-            return false;
+    public boolean changePassword(String userProfileName, NewPassword newPassword) {
+        if (login(userProfileName, newPassword.getCurrentPassword())) {
+            manager.changePassword(newPassword.getCurrentPassword(), newPassword.getNewPassword());
+            return true;
+        }
+        return false;
     }
 }

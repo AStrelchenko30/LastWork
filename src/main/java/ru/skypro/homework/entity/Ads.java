@@ -24,70 +24,10 @@ public class Ads {
 
     private String description;
 
-   // @OneToOne(cascade = CascadeType.ALL)
+
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private byte[] image;
 
-    /*  public Ads() {
-    }
-
-  public Ads(Integer id, UserProfile author, String title, int price, String description, byte[] image) {
-        this.id = id;
-        this.author = author;
-        this.title = title;
-        this.price = price;
-        this.description = description;
-        this.image = image;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public UserProfile getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(UserProfile author) {
-        this.author = author;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void getImage() {
-        this.image = image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-*/
     @Override
     public String toString() {
         return "Ads{" +

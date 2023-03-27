@@ -2,21 +2,17 @@ package ru.skypro.homework.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
 import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Comment;
-import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.service.AdsService;
-import ru.skypro.homework.service.impl.ImageServiceImpl;
-
+import ru.skypro.homework.service.ImageService;
 import java.util.List;
 
 
@@ -28,9 +24,7 @@ import java.util.List;
 public class AdsController {
 
     private final AdsService adsService;
-
-   // private final ImageServiceImpl imageService;
-
+    private final ImageService imageService;
 
     @GetMapping
     public ResponseEntity<?> getAllAds() {
@@ -109,11 +103,10 @@ public class AdsController {
         return ResponseEntity.ok(adsService.getAdsMeUsingGET(userDetails));
     }
 
-  /*  @ApiOperation(value = "updateAdsImage")
-    @GetMapping("/image")
-    public ResponseEntity<String> updateAdsImage(@RequestParam MultipartFile image) {
-        return ResponseEntity.ok(imageService.savePhoto(image));
+    @ApiOperation(value = "updateAdsImage")
+    @PatchMapping(value = "/image/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> updateAdsImage(@RequestParam MultipartFile image, @PathVariable (value = "id") Long id) {
+        return ResponseEntity.ok(imageService.updateAdsImage(image,id));
     }
 
-   */
 }

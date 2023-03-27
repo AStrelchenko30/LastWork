@@ -16,8 +16,7 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-//@Table(name = "users_profiles")
-public class UserProfile  implements UserDetails  {
+public class UserProfile implements UserDetails {
 
 
     @Id
@@ -29,72 +28,15 @@ public class UserProfile  implements UserDetails  {
     private String lastName;
     private String phone;
 
-   @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "avatar_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "avatar", referencedColumnName = "id")
     private Avatar avatar;
-    @OneToMany(mappedBy="author")
+    @OneToMany(mappedBy = "author")
     private Set<Ads> ads;
 
     @Enumerated(EnumType.ORDINAL)
     private Role roleEnum;
 
-
-   /* public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Set<Ads> getAds() {
-        return ads;
-    }
-
-    public void setAds(Set<Ads> ads) {
-        this.ads = ads;
-    }
-
-    public Role getRoleEnum() {
-        return roleEnum;
-    }
-
-    public void setRoleEnum(Role roleEnum) {
-        this.roleEnum = roleEnum;
-    }
-*/
     @Override
     public String toString() {
         return "UserProfile{" +

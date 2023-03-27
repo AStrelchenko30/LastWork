@@ -4,7 +4,9 @@ package ru.skypro.homework.service.impl;
 import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
 import ru.skypro.homework.dto.UserDto;
+import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Avatar;
+import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.entity.UserProfile;
 import ru.skypro.homework.mappers.UserMapper;
 
@@ -78,9 +80,24 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public String saveAvatar(MultipartFile image) throws RuntimeException {
+    public String updateUserAvatar(MultipartFile image,Long id) throws RuntimeException {
 
         Avatar entity = new Avatar();
+        try {
+            byte[] bytes = image.getBytes();
+            entity.setImage(bytes);
+            Avatar avatar = avatarRepository.findAvatarById(id);
+            avatar.setImage(bytes);
+            avatarRepository.save(avatar);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        entity.setId(UUID.randomUUID().toString());
+        Avatar savedEntity = avatarRepository.saveAndFlush(entity);
+        return savedEntity.getId();
+    }
+
+      /*  Avatar entity = new Avatar();
         try {
             byte[] bytes = image.getBytes();
             entity.setImage(bytes);
@@ -91,4 +108,6 @@ public class UserProfileServiceImpl implements UserProfileService {
         Avatar savedEntity = avatarRepository.saveAndFlush(entity);
         return savedEntity.getId();
     }
+
+       */
 }

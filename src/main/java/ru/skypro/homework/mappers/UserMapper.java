@@ -15,7 +15,7 @@ public interface UserMapper {
     @Mapping(target = "firstName", source = "userProfile.firstName")
     @Mapping(target = "lastName", source = "userProfile.lastName")
     @Mapping(target = "phone", source = "userProfile.phone")
-    @Mapping(target = "avatar", source = "userProfile.avatar.id")
+    @Mapping(target = "avatar", expression = "/avatar/{id}")
     @Mapping(target = "city", ignore = true)
     @Mapping(target = "regDate", ignore = true)
     @Mapping(target = "name", ignore = true)

@@ -17,7 +17,7 @@ public interface AdsMapper {
 
     AdsMapper INSTANCE = Mappers.getMapper(AdsMapper.class);
 
-    @Mapping(target = "image", source = "ads.image.id")
+    @Mapping(target = "image", source = "/image/{id}")
     @Mapping(target = "author", source = "ads.author.id")
     @Mapping(target = "pk", source = "ads.id")
     @Mapping(target = "price", source = "ads.price")

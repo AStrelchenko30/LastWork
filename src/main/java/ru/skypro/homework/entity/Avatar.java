@@ -1,7 +1,5 @@
 package ru.skypro.homework.entity;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
 
@@ -15,6 +13,7 @@ public class Avatar {
     @OneToOne
     private UserProfile userProfile;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     @Lob
     @Column(name = "data")
@@ -56,33 +55,4 @@ public class Avatar {
     public String toString() {
         return "Avatar(id=" + this.getId() + ", image=" + java.util.Arrays.toString(this.getImage()) + ")";
     }
- /*   @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-private String filePath;
-private long fileSize;
-
-    @Lob
-    @Type(type = "org.hibernate.type.BinaryType")
-    private byte[] data;
-    @OneToOne
-    private UserProfile userProfile;
-
-    public void setData(byte[] data) {
-        this.data = data;
-    }
-
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
-    }
-
-    public UserProfile getUserProfile() {
-        return userProfile;
-    }
-
-  */
 }

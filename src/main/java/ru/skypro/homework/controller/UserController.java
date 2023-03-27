@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.NewPassword;
 import ru.skypro.homework.dto.UserDto;
-import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.entity.UserProfile;
 import ru.skypro.homework.repository.AvatarRepository;
 import ru.skypro.homework.service.AuthService;
@@ -54,15 +53,9 @@ public class UserController {
         return ResponseEntity.ok(userProfileService.updateUser(userProfile));
     }
 
-    @ApiOperation(value = "updateAdsImage")
-    @PatchMapping(value = "/image/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> updateAdsImage(@RequestParam MultipartFile image, @PathVariable Long id) {
-        return ResponseEntity.ok(imageService.updateAdsImage(image,id));
-    }
-
-    @PostMapping(value = "/updateAvatarImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> saveAvatarImage(@RequestParam MultipartFile image){
-       return ResponseEntity.ok(userProfileService.saveAvatar(image));
+    @PostMapping(value = "/avatar/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> saveAvatarImage(@RequestParam MultipartFile image,@PathVariable (value = "id") Long id ){
+       return ResponseEntity.ok(userProfileService.updateUserAvatar(image, id));
     }
 }
 

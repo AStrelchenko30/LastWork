@@ -65,9 +65,8 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public byte[] getPhoto(Long id) {
-
         Image image = imageRepository.getReferenceById(id);
-        return image.getData();
+        return image.getImage();
     }
 
 

@@ -1,24 +1,26 @@
 -- liquibase formated sql
 -- changeset sgorban:1
 
-CREATE TABLE user_profiles
+CREATE TABLE user_profile
 (
     id        SERIAL primary key not null,
     email     TEXT,
     firstName TEXT,
     lastName  TEXT,
-    phone     TEXT,
+    phone     TEXT
 
 );
 
 CREATE TABLE avatar
 (
-    id             SERIAL primary key not null,
+    id             TEXT primary key not null,
     data           bytea,
-    userProfile_id BIGSERIAL references user_profiles (id),
-    avatar_id      BIGSERIAL references avatar (id)
+    user_profile_id BIGSERIAL references user_profile (id)
+
 );
 
+ALTER TABLE user_profile
+    ADD avatar TEXT references avatar (id);
 CREATE TABLE image
 (
     id        SERIAL primary key not null,
@@ -33,11 +35,11 @@ CREATE TABLE ads
     description     TEXT,
     price           INTEGER,
     title           TEXT,
-    user_profile_id BIGSERIAL references user_profiles (id),
+    user_profile_id BIGSERIAL references user_profile (id),
     image_id        BIGSERIAL references image (id)
 );
 
-CREATE TABLE comments
+CREATE TABLE comment
 (
     id              SERIAL primary key not null,
     ads_id          BIGSERIAL,

@@ -1,26 +1,21 @@
 package ru.skypro.homework.entity;
 
-import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-@ToString
 public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-    private long fileSize;
-    private String mediaType;
+    // private long fileSize;
+    // private String mediaType;
 
     @Lob
     @Type(type = "org.hibernate.type.BinaryType")
@@ -49,14 +44,6 @@ public class Image {
         return id != null && Objects.equals(id, image.id);
         // return fileSize == image.fileSize && id.equals(image.id) && mediaType.equals(image.mediaType) && Arrays.equals(data, image.data) && ads.equals(image.ads);
     }
-
-   /* @Override
-    public int hashCode() {
-        int result = Objects.hash(id, fileSize, mediaType, ads);
-        result = 31 * result + Arrays.hashCode(data);
-        return result;
-    }
-        */
 
     @Override
     public int hashCode() {
