@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CommentRepository extends JpaRepository<Comment, Integer> {
+public interface CommentRepository extends JpaRepository<Comment, Long> {
     void deleteByAdsIdAndId(Long adsId, Long commentId);
 
 
-    Optional<Comment> findAdsCommentByCreatedAtAndId(String pk, Integer id);
+    Optional<Comment> findByAdsIdAndId(Long pk, Long id);
 
 
-    List<Comment> findAdsCommentByCreatedAt(String adPk);
+    List<Comment> findByAdsId(Long adPk);
 }

@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.service.impl.ImageServiceImpl;
 
 @RestController
-@RequestMapping("/image")
 @CrossOrigin(value = "http://localhost:3000")
 public class ImageController {
 

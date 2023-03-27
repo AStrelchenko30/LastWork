@@ -1,5 +1,6 @@
 package ru.skypro.homework.service.impl;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -7,6 +8,7 @@ import ru.skypro.homework.dto.*;
 import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Comment;
 
+import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.entity.UserProfile;
 import ru.skypro.homework.exceptions.AdsNotFoundException;
 import ru.skypro.homework.exceptions.CommentNotFoundException;
@@ -16,6 +18,7 @@ import ru.skypro.homework.mappers.AdsMapper;
 import ru.skypro.homework.mappers.CommentMapper;
 import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.repository.CommentRepository;
+import ru.skypro.homework.repository.ImageRepository;
 import ru.skypro.homework.repository.UserProfileRepository;
 import ru.skypro.homework.security.UtilWebSecurity;
 import ru.skypro.homework.service.AdsService;
@@ -32,14 +35,14 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
     private final AdsRepository adsRepository;
     private final UserProfileRepository userProfileRepository;
 
-    private final ImageServiceImpl imageService;
+    private final ImageRepository repository;
 
 
-    public AdsServiceImpl(CommentRepository commentRepository, AdsRepository adsRepository, UserProfileRepository userProfileRepository, ImageServiceImpl imageService) {
+    public AdsServiceImpl(CommentRepository commentRepository, AdsRepository adsRepository, UserProfileRepository userProfileRepository, ImageRepository repository) {
         this.commentRepository = commentRepository;
         this.adsRepository = adsRepository;
         this.userProfileRepository = userProfileRepository;
-        this.imageService = imageService;
+        this.repository = repository;
     }
 
     @Override
@@ -54,12 +57,15 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
 
     @Override
     public AdsDto createAds(CreateAds ads, MultipartFile image) {
+
         Ads createAds = new Ads();
         createAds.setDescription(ads.getDescription());
         createAds.setPrice(ads.getPrice());
         createAds.setTitle(ads.getTitle());
         try {
-            createAds.setImage(image.getBytes());
+            Image newImage = new Image();
+            newImage.setImage(image.getBytes());
+            createAds.setImage(repository.save(newImage));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -69,15 +75,15 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
 
 
     @Override
-    public CommentsDto getAdsComment(String adPk, Integer Id) {
+    public CommentsDto getAdsComment(Long adPk, Long Id) {
 
-        Comment adsComment = commentRepository.findAdsCommentByCreatedAtAndId(adPk, Id)
+        Comment adsComment = commentRepository.findByAdsIdAndId(adPk, Id)
                 .orElseThrow(CommentNotFoundException::new);
         return CommentMapper.INSTANCE.dtoToCommentsDto(adsComment);
     }
 
     @Override
-    public AdsDto removeAds(Integer id) {
+    public AdsDto removeAds(Long id) {
         Ads ads = adsRepository.findById(id).orElseThrow(AdsNotFoundException::new);
 
         if (Objects.equals(ads.getAuthor().getId(), getUser().getId()) || getUser().getRoleEnum() == Role.ADMIN) {
@@ -90,8 +96,8 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
 
 
     @Override
-    public Comment updateComment(String adPk, Integer Id, Comment comment) {
-        Comment adsComment = commentRepository.findAdsCommentByCreatedAtAndId(adPk, Id)
+    public Comment updateComment(Long adPk, Long Id, Comment comment) {
+        Comment adsComment = commentRepository.findByAdsIdAndId(adPk, Id)
                 .orElseThrow(CommentNotFoundException::new);
         if (Objects.equals(adsComment.getAuthor(), getUser().getId()) || getUser().getRoleEnum() == Role.ADMIN) {
             adsComment.setCreatedAt(LocalDateTime.now());
@@ -117,12 +123,18 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
   */
 
     @Override
-    public List<Ads> getAdsMeUsingGET(UserDetails userDetails) {
-        return adsRepository.findAdsByAuthor(userDetails.getUsername());
+    public ResponseWrapperAds getAdsMeUsingGET(Authentication authentication) {
+        ResponseWrapperAds responseWrapperAds = new ResponseWrapperAds();
+        List<AdsDto> results = AdsMapper.INSTANCE.toDtoList(adsRepository.findAdsByAuthor_Email(authentication.getName()));
+        results.stream().sorted(Comparator.comparing(AdsDto::getAuthor));
+        responseWrapperAds.setResults(results);
+        responseWrapperAds.setCount(results.size());
+        return responseWrapperAds;
     }
 
+
     @Override
-    public AdsDto updateAds(Integer Id, CreateAds createAds) {
+    public AdsDto updateAds(Long Id, CreateAds createAds) {
         Ads ads = adsRepository.findById(Id).orElseThrow(AdsNotFoundException::new);
         if (adsRepository.findById(Id).isPresent()) {
             ads.setDescription(createAds.getDescription());
@@ -138,8 +150,8 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
 
 
     @Override
-    public ResponseWrapperComment getComments(String adPk) {
-        List<Comment> adsCommentList = commentRepository.findAdsCommentByCreatedAt(adPk);
+    public ResponseWrapperComment getComments(Long adPk) {
+        List<Comment> adsCommentList = commentRepository.findByAdsId(adPk);
         List<CommentsDto> adsCommentDtoList = new ArrayList<>(adsCommentList.size());
         for (Comment adsComment : adsCommentList) {
             adsCommentDtoList.add(CommentMapper.INSTANCE.dtoToCommentsDto(adsComment));
@@ -151,37 +163,43 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
     }
 
     @Override
-    public CommentsDto addAdsComment(Long adPk, CommentsDto comment) {
+    public CommentsDto addAdsComment(Long adPk, CommentsDto comment,Authentication authentication) {
+        Optional<UserProfile> user=userProfileRepository.findByEmail(authentication.getName());
         comment.setCreatedAt(String.valueOf(LocalDateTime.now()));
-        comment.setPk(adPk);
+
         Comment adsComment = CommentMapper.INSTANCE.dtoToComments(comment);
+        adsComment.setAdsId(adPk);
+        adsComment.setAuthor(user.get().getId());
         commentRepository.save(adsComment);
         return CommentMapper.INSTANCE.dtoToCommentsDto(adsComment);
     }
 
 
     @Override
-    public FullAds getFullAds(Integer id) {
+    public FullAds getFullAds(Long id, Authentication authentication) {
         Ads ads = adsRepository.findById(id).orElseThrow(AdsNotFoundException::new);
-        UserProfile user = userProfileRepository.findById(Long.valueOf(Math.toIntExact(ads.getAuthor().getId()))).orElseThrow(UserNotFoundException::new);
-        FullAds fullAds = new FullAds();
-        fullAds.setAuthorFirstName(user.getFirstName());
-        fullAds.setAuthorLastName(user.getLastName());
-        fullAds.setDescription(ads.getDescription());
-        fullAds.setEmail(user.getEmail());
-        fullAds.setImage(AdsMapper.INSTANCE.dtoToAdsDto(ads).getImage());
-        fullAds.setPhone(user.getPhone());
-        fullAds.setPrice(ads.getPrice());
-        fullAds.setTitle(ads.getTitle());
-        return fullAds;
+        Optional<UserProfile> user = userProfileRepository.findByEmail(authentication.getName());
+        if (user.isPresent()) {
+            FullAds fullAds = new FullAds();
+            fullAds.setAuthorFirstName(user.get().getFirstName());
+            fullAds.setAuthorLastName(user.get().getLastName());
+            fullAds.setDescription(ads.getDescription());
+            fullAds.setEmail(user.get().getEmail());
+            fullAds.setImage("/image/" + id);
+            fullAds.setPhone(user.get().getPhone());
+            fullAds.setPrice(ads.getPrice());
+            fullAds.setTitle(ads.getTitle());
+            return fullAds;
+        }
+        throw new UserNotFoundException();
     }
 
     @Override
-    public CommentsDto deleteAdsComment(String adPk, Integer Id) {
-        Comment adsComment = commentRepository.findAdsCommentByCreatedAtAndId(adPk, Id)
+    public CommentsDto deleteAdsComment(Long adPk, Long Id) {
+        Comment adsComment = commentRepository.findByAdsIdAndId(adPk, Id)
                 .orElseThrow(CommentNotFoundException::new);
         if (Objects.equals(adsComment.getAuthor(), getUser().getId()) || getUser().getRoleEnum() == Role.ADMIN) {
-            commentRepository.deleteById(Math.toIntExact(adsComment.getId()));
+            commentRepository.deleteById(adsComment.getId());
             return CommentMapper.INSTANCE.dtoToCommentsDto(adsComment);
         }
         throw new ForbiddenException();

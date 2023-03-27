@@ -11,11 +11,8 @@ public interface UserMapper {
 
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    @Mapping(target = "email", source = "userProfile.email")
-    @Mapping(target = "firstName", source = "userProfile.firstName")
-    @Mapping(target = "lastName", source = "userProfile.lastName")
-    @Mapping(target = "phone", source = "userProfile.phone")
-    @Mapping(target = "avatar", expression = "/avatar/{id}")
+    
+    @Mapping(target = "image", expression = "java(\"/avatar/\"+userProfile.getId())")
     @Mapping(target = "city", ignore = true)
     @Mapping(target = "regDate", ignore = true)
     @Mapping(target = "name", ignore = true)

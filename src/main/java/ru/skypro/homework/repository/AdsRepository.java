@@ -6,7 +6,7 @@ import ru.skypro.homework.entity.Ads;
 import java.util.List;
 
 @Repository
-public interface AdsRepository extends JpaRepository<Ads, Integer> {
+public interface AdsRepository extends JpaRepository<Ads, Long> {
 
 
     void deleteAllById(Long adsId);
@@ -15,7 +15,7 @@ public interface AdsRepository extends JpaRepository<Ads, Integer> {
 
     List<Ads> findAdsByTitleLike(String title);
 
-    List<Ads> findAdsByAuthor(String author);
+    List<Ads> findAdsByAuthor_Email(String author);
 
     Ads findAdsById(Long id);
 }

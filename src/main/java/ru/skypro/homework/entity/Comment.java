@@ -12,7 +12,7 @@ public class Comment {
     private Long id;
 
     private Long adsId;
-
+    @Column(name = "user_profile_id")
     private Long author;
 
     private LocalDateTime createdAt;

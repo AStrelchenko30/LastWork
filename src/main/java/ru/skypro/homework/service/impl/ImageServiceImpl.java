@@ -86,18 +86,17 @@ public class ImageServiceImpl implements ImageService {
    */
 
     @Override
-    public String updateAdsImage(MultipartFile image, Long id) throws RuntimeException {
+    public Long updateAdsImage(MultipartFile image, Long id) throws RuntimeException {
         Image entity = new Image();
         try {
             byte[] bytes = image.getBytes();
             entity.setImage(bytes);
             Ads ads = adsRepository.findAdsById(id);
-            ads.setImage(bytes);
+            ads.setImage(entity);
             adsRepository.save(ads);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        entity.setId(UUID.randomUUID().toString());
         Image savedEntity = imageRepository.saveAndFlush(entity);
         return savedEntity.getId();
     }

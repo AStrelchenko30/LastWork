@@ -10,5 +10,4 @@ import ru.skypro.homework.entity.Image;
 public interface ImageMapper {
     ImageMapper INSTANCE = Mappers.getMapper(ImageMapper.class);
 
-    Image dtoToImage(MultipartFile image);
 }

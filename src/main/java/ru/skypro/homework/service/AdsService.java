@@ -1,5 +1,6 @@
 package ru.skypro.homework.service;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.*;
@@ -16,23 +17,23 @@ public interface AdsService {
 
     AdsDto createAds(CreateAds ads, MultipartFile image);
 
-    ResponseWrapperComment getComments(String adPk);
+    ResponseWrapperComment getComments(Long adPk);
 
-    CommentsDto addAdsComment(Long adPk, CommentsDto comment);
+    CommentsDto addAdsComment(Long adPk, CommentsDto comment, Authentication authentication);
 
-    FullAds getFullAds(Integer id);
+    FullAds getFullAds(Long id,Authentication authentication);
 
-    AdsDto removeAds(Integer id);
+    AdsDto removeAds(Long id);
 
-    AdsDto updateAds(Integer Id, CreateAds createAds);
+    AdsDto updateAds(Long Id, CreateAds createAds);
 
-    CommentsDto getAdsComment(String adPk, Integer Id);
+    CommentsDto getAdsComment(Long adPk, Long Id);
 
-    CommentsDto deleteAdsComment(String adPk, Integer Id);
+    CommentsDto deleteAdsComment(Long adPk, Long Id);
 
-    Comment updateComment(String adPk, Integer Id, Comment comment);
+    Comment updateComment(Long adPk, Long Id, Comment comment);
 
-    List<Ads> getAdsMeUsingGET(UserDetails userDetails);
+    ResponseWrapperAds getAdsMeUsingGET(Authentication authentication);
 
     List<Ads> findAdsByTitle(String title);
 

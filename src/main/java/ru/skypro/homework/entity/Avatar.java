@@ -14,7 +14,7 @@ public class Avatar {
     private UserProfile userProfile;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     @Lob
     @Column(name = "data")
     @Type(type = "org.hibernate.type.BinaryType")
@@ -36,7 +36,7 @@ public class Avatar {
         return getClass().hashCode();
     }
 
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
@@ -44,7 +44,7 @@ public class Avatar {
         return this.image;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

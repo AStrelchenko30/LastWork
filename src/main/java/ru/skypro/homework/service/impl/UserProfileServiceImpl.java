@@ -1,6 +1,7 @@
 package ru.skypro.homework.service.impl;
 
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
 import ru.skypro.homework.dto.UserDto;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -40,28 +42,22 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public UserDto updateUser(UserProfile userProfileNew) {
-        if (userProfileRepository.findById(userProfileNew.getId()).isPresent()) {
-            UserProfile userProfileOld = userProfileRepository.findById(userProfileNew.getId()).get();
-            userProfileOld.setEmail(userProfileNew.getEmail());
-            userProfileOld.setFirstName(userProfileNew.getFirstName());
-            userProfileOld.setLastName(userProfileNew.getLastName());
-            userProfileOld.setPhone(userProfileNew.getPhone());
-            userProfileOld.setAds(userProfileNew.getAds());
-            userProfileOld.setAvatar(userProfileNew.getAvatar());
-            userProfileRepository.save(userProfileOld);
-            return UserMapper.INSTANCE.dtoToUserDto(userProfileNew);
-        } else if (userProfileRepository.findById(userProfileNew.getId()).isEmpty()) {
-            userProfileRepository.save(userProfileNew);
+    public UserDto updateUser(UserDto userProfileNew, Authentication authentication) {
+        Optional<UserProfile> userProfileOld=userProfileRepository.findByEmail(authentication.getName());
+        if (userProfileOld.isPresent()) {
+            userProfileOld.get().setFirstName(userProfileNew.getFirstName());
+            userProfileOld.get().setPhone(userProfileNew.getPhone());
+            userProfileOld.get().setLastName(userProfileNew.getLastName());
+            return UserMapper.INSTANCE.dtoToUserDto(userProfileRepository.save(userProfileOld.get()));
         }
-        return UserMapper.INSTANCE.dtoToUserDto(userProfileNew);
-        //        throw new NotFoundException("User not found");
+         throw new NotFoundException("User not found");
     }
 
     @Override
-    public UserDto findUser(Long id) {
-        if (userProfileRepository.findById(id).isPresent()) {
-            return UserMapper.INSTANCE.dtoToUserDto(userProfileRepository.findById(id).get());
+    public UserDto findUser(Authentication authentication) {
+        Optional<UserProfile> userByEmail= userProfileRepository.findByEmail(authentication.getName());
+        if(userByEmail.isPresent()){
+            return UserMapper.INSTANCE.dtoToUserDto(userByEmail.get());
         }
         throw new NotFoundException("User not found");
     }
@@ -80,7 +76,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public String updateUserAvatar(MultipartFile image,Long id) throws RuntimeException {
+    public Long updateUserAvatar(MultipartFile image,Long id) throws RuntimeException {
 
         Avatar entity = new Avatar();
         try {
@@ -92,7 +88,6 @@ public class UserProfileServiceImpl implements UserProfileService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        entity.setId(UUID.randomUUID().toString());
         Avatar savedEntity = avatarRepository.saveAndFlush(entity);
         return savedEntity.getId();
     }

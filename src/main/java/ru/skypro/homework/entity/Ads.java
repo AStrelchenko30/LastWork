@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Ads {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_profile_id")
@@ -26,7 +26,9 @@ public class Ads {
 
 
     @JoinColumn(name = "image_id", referencedColumnName = "id")
-    private byte[] image;
+    @OneToOne
+    private Image image;
+
 
     @Override
     public String toString() {

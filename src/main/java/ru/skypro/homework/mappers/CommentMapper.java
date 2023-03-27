@@ -17,7 +17,7 @@ public interface CommentMapper {
     @Mapping(target = "text", source = "text")
     CommentsDto dtoToCommentsDto(Comment comment);
 
-  @Mapping(target = "pk", source = "id")
+  @Mapping(target = "id", source = "pk")
     Comment dtoToComments(CommentsDto commentDto);
 
 

@@ -17,26 +17,10 @@ public interface AdsMapper {
 
     AdsMapper INSTANCE = Mappers.getMapper(AdsMapper.class);
 
-    @Mapping(target = "image", source = "/image/{id}")
-    @Mapping(target = "author", source = "ads.author.id")
-    @Mapping(target = "pk", source = "ads.id")
-    @Mapping(target = "price", source = "ads.price")
-    @Mapping(target = "title", ignore = true)
+    @Mapping(target = "image", expression = "java(\"/image/\"+ads.getId())")
+    @Mapping(target = "author", source = "author.id")
+    @Mapping(target = "pk", source = "id")
     AdsDto dtoToAdsDto(Ads ads);
-
-    @Mapping(target = "authorFirstName", source = "ads.author.firstName")
-    @Mapping(target = "authorLastName", source = "ads.author.lastName")
-    @Mapping(target = "description", source = "ads.description")
-    @Mapping(target = "email", source = "ads.author.email")
-    @Mapping(target = "phone", source = "ads.author.phone")
-    @Mapping(target = "pk", source = "ads.id")
-    @Mapping(target = "price", source = "ads.price")
-    @Mapping(target = "title", source = "ads.title")
-    FullAds dtoToFullAds(Ads ads);
-
-    @Mapping(target = "pk", ignore = true)
-    @Mapping(target = "comments", ignore = true)
-    Ads dtoToCreateAds(CreateAds createAds, User author, String image);
 
 
     List<AdsDto> toDtoList(List<Ads> adsList);

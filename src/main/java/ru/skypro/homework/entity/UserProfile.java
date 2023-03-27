@@ -34,7 +34,7 @@ public class UserProfile implements UserDetails {
     @OneToMany(mappedBy = "author")
     private Set<Ads> ads;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Role roleEnum;
 
     @Override

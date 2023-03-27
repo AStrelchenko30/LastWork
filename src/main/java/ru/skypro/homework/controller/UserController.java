@@ -1,6 +1,5 @@
 package ru.skypro.homework.controller;
-
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,7 @@ public class UserController {
         this.avatarRepository = avatarRepository;
     }
 
-    @ApiOperation(value = "setPassword")
+    @Operation(summary = "setPassword")
     @PostMapping("/set_password")
     ResponseEntity<NewPassword> changePassword(Authentication authentication, @RequestBody NewPassword newPassword) {
         if (authService.changePassword(authentication.getName(), newPassword)) {
@@ -41,20 +40,20 @@ public class UserController {
         }
     }
 
-    @ApiOperation(value = "getUser")
+    @Operation(summary = "getUser")
     @GetMapping("/me")
-    public ResponseEntity<UserDto> getUser(Long id) {
-        return ResponseEntity.ok(userProfileService.findUser(id));
+    public ResponseEntity<UserDto> getUser(Authentication authentication) {
+        return ResponseEntity.ok(userProfileService.findUser(authentication));
     }
 
-    @ApiOperation(value = "updateUser")
+    @Operation(summary= "updateUser")
     @PatchMapping(value = "/me")
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserProfile userProfile) {
-        return ResponseEntity.ok(userProfileService.updateUser(userProfile));
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userProfile, Authentication authentication) {
+        return ResponseEntity.ok(userProfileService.updateUser(userProfile,authentication));
     }
 
     @PostMapping(value = "/avatar/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> saveAvatarImage(@RequestParam MultipartFile image,@PathVariable (value = "id") Long id ){
+    public ResponseEntity<Long> saveAvatarImage(@RequestParam MultipartFile image,@PathVariable (value = "id") Long id ){
        return ResponseEntity.ok(userProfileService.updateUserAvatar(image, id));
     }
 }

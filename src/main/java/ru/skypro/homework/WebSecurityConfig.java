@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import ru.skypro.homework.entity.UserProfile;
+import ru.skypro.homework.repository.UserProfileRepository;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -18,13 +20,18 @@ import static org.springframework.security.config.Customizer.withDefaults;
         jsr250Enabled = true)
 public class WebSecurityConfig {
 
+    private final UserProfileRepository userProfileRepository;
+
+    public WebSecurityConfig(UserProfileRepository userProfileRepository) {
+        this.userProfileRepository = userProfileRepository;
+    }
+
     private static final String[] AUTH_WHITELIST = {
             "/swagger-resources/**",
             "/swagger-ui.html",
             "/v3/api-docs",
             "/webjars/**",
-            "/login", "/register",
-            "ads/image/*", "users/avatar/*"
+            "/login", "/register"
     };
 
     @Bean
@@ -34,6 +41,11 @@ public class WebSecurityConfig {
                 .password("password")
                 .roles("USER")
                 .build();
+        if(userProfileRepository.findByEmail(user.getUsername()).isEmpty()){
+            UserProfile newProfile = new UserProfile();
+            newProfile.setEmail(user.getUsername());
+            userProfileRepository.save(newProfile);
+        }
         return new InMemoryUserDetailsManager(user);
     }
 
@@ -47,11 +59,10 @@ public class WebSecurityConfig {
                                 .mvcMatchers("/ads/**", "/users/**").authenticated()
 
                 )
-                .cors().disable()
+                .cors().and()
                 .httpBasic(withDefaults());
         return http.build();
     }
 
 
 }
-

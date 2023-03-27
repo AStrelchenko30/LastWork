@@ -13,7 +13,7 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     // private long fileSize;
     // private String mediaType;
 
@@ -24,8 +24,7 @@ public class Image {
     public Image() {
     }
 
-    @OneToOne(cascade = CascadeType.REFRESH)
-    private Ads ads;
+
 
     /*  public Image(String id, long fileSize, String mediaType, byte[] data, Ads ads) {
         this.id = id;
@@ -50,7 +49,7 @@ public class Image {
         return getClass().hashCode();
     }
 
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
@@ -58,7 +57,7 @@ public class Image {
         return this.data;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -12,5 +12,5 @@ public interface ImageService {
 
     byte[] getPhoto(Long id);
 
-    String updateAdsImage(MultipartFile image, Long id) throws RuntimeException;
+    Long updateAdsImage(MultipartFile image, Long id) throws RuntimeException;
 }
