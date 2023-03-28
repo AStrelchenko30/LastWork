@@ -52,10 +52,12 @@ public class UserController {
         return ResponseEntity.ok(userProfileService.updateUser(userProfile,authentication));
     }
 
-    @PostMapping(value = "/avatar/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    /* @PostMapping(value = "/avatar/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Long> saveAvatarImage(@RequestParam MultipartFile image,@PathVariable (value = "id") Long id ){
        return ResponseEntity.ok(userProfileService.updateUserAvatar(image, id));
     }
+
+     */
 
 
     @Operation(summary = "updateUserAvatar")
