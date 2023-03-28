@@ -4,23 +4,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
 import ru.skypro.homework.entity.Ads;
+import ru.skypro.homework.entity.Avatar;
 import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.repository.AdsRepository;
+import ru.skypro.homework.repository.AvatarRepository;
 import ru.skypro.homework.repository.ImageRepository;
 import ru.skypro.homework.service.ImageService;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @Service
 public class ImageServiceImpl implements ImageService {
 
     private final ImageRepository imageRepository;
     private final AdsRepository adsRepository;
+    private final AvatarRepository avatarRepository;
 
-    public ImageServiceImpl(ImageRepository imageRepository, AdsRepository adsRepository) {
+    public ImageServiceImpl(ImageRepository imageRepository, AdsRepository adsRepository, AvatarRepository avatarRepository) {
         this.imageRepository = imageRepository;
         this.adsRepository = adsRepository;
+        this.avatarRepository = avatarRepository;
     }
 
     @Override
@@ -69,6 +72,12 @@ public class ImageServiceImpl implements ImageService {
         return image.getImage();
     }
 
+
+    @Override
+    public byte[] getPhotoUser(Long id) {
+        Avatar avatar = avatarRepository.getReferenceById(id);
+        return avatar.getImage();
+    }
 
   /*  @Override
     public Image updateAdsImage(Long id, MultipartFile image) {

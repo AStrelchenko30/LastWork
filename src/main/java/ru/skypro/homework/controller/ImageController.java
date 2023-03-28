@@ -18,4 +18,10 @@ public class ImageController {
     public byte[] getImage(@PathVariable("id") Long id) {
         return service.getPhoto(id);
     }
+
+    @GetMapping(value = "/avatar/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
+    public byte[] getAvatar(@PathVariable("id") Long id) {
+        return service.getPhotoUser(id);
+    }
+
 }
