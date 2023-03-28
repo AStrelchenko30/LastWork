@@ -92,6 +92,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         return savedEntity.getId();
     }
 
+
       /*  Avatar entity = new Avatar();
         try {
             byte[] bytes = image.getBytes();

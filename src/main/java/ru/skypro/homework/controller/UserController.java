@@ -56,6 +56,13 @@ public class UserController {
     public ResponseEntity<Long> saveAvatarImage(@RequestParam MultipartFile image,@PathVariable (value = "id") Long id ){
        return ResponseEntity.ok(userProfileService.updateUserAvatar(image, id));
     }
+
+
+    @Operation(summary = "updateUserAvatar")
+    @PatchMapping(value = "/avatar/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Long> updateUserAvatar(@RequestParam MultipartFile avatar, @PathVariable (value = "id") Long id) {
+        return ResponseEntity.ok(userProfileService.updateUserAvatar(avatar,id));
+    }
 }
 
 
