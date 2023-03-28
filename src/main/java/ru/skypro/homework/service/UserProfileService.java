@@ -18,5 +18,5 @@ public interface UserProfileService {
 
     public List<UserProfile> getAllUser();
 
-    Long updateUserAvatar(MultipartFile image, Long id) throws RuntimeException;
+    UserDto updateUserAvatar(MultipartFile image, Authentication authentication) throws RuntimeException;
 }

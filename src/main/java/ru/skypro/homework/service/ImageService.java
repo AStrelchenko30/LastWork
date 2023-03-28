@@ -1,5 +1,6 @@
 package ru.skypro.homework.service;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.entity.Image;
 
@@ -12,7 +13,7 @@ public interface ImageService {
 
     byte[] getPhoto(Long id);
 
-    byte[] getPhotoUser(Long id);
+    byte[] getPhotoUser(Authentication authentication);
 
     Long updateAdsImage(MultipartFile image, Long id) throws RuntimeException;
 }

@@ -1,6 +1,7 @@
 package ru.skypro.homework.controller;
 
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.homework.service.impl.ImageServiceImpl;
 
@@ -20,8 +21,8 @@ public class ImageController {
     }
 
     @GetMapping(value = "/avatar/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
-    public byte[] getAvatar(@PathVariable("id") Long id) {
-        return service.getPhotoUser(id);
+    public byte[] getAvatar(Authentication authentication) {
+        return service.getPhotoUser(authentication);
     }
 
 }

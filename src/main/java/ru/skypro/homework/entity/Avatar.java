@@ -10,8 +10,8 @@ import java.util.Objects;
 @Entity
 
 public class Avatar {
-    @OneToOne
-    private UserProfile userProfile;
+    //@OneToOne
+    //private UserProfile userProfile;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -53,6 +53,6 @@ public class Avatar {
     }
 
     public String toString() {
-        return "Avatar(id=" + this.getId() + ", image=" + java.util.Arrays.toString(this.getImage()) + ")";
+        return "UserProfileImageEntity(id=" + this.getId() + ", image=" + java.util.Arrays.toString(this.getImage()) + ")";
     }
 }

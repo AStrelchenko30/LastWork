@@ -62,8 +62,8 @@ public class UserController {
 
     @Operation(summary = "updateUserAvatar")
     @PatchMapping(value = "/avatar/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Long> updateUserAvatar(@RequestParam MultipartFile avatar, @PathVariable (value = "id") Long id) {
-        return ResponseEntity.ok(userProfileService.updateUserAvatar(avatar,id));
+    public ResponseEntity<UserDto> updateUserAvatar(@RequestParam MultipartFile avatar, Authentication authentication) {
+        return ResponseEntity.ok(userProfileService.updateUserAvatar(avatar,authentication));
     }
 }
 

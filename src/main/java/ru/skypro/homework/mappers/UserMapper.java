@@ -16,6 +16,7 @@ public interface UserMapper {
     @Mapping(target = "city", ignore = true)
     @Mapping(target = "regDate", ignore = true)
     @Mapping(target = "name", ignore = true)
+
     UserDto dtoToUserDto(UserProfile userProfile);
 
 }

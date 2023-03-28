@@ -1,17 +1,20 @@
 package ru.skypro.homework.service.impl;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
 import ru.skypro.homework.entity.Ads;
-import ru.skypro.homework.entity.Avatar;
 import ru.skypro.homework.entity.Image;
+import ru.skypro.homework.entity.UserProfile;
 import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.repository.AvatarRepository;
 import ru.skypro.homework.repository.ImageRepository;
+import ru.skypro.homework.repository.UserProfileRepository;
 import ru.skypro.homework.service.ImageService;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 public class ImageServiceImpl implements ImageService {
@@ -19,11 +22,13 @@ public class ImageServiceImpl implements ImageService {
     private final ImageRepository imageRepository;
     private final AdsRepository adsRepository;
     private final AvatarRepository avatarRepository;
+    private final UserProfileRepository userProfileRepository;
 
-    public ImageServiceImpl(ImageRepository imageRepository, AdsRepository adsRepository, AvatarRepository avatarRepository) {
+    public ImageServiceImpl(ImageRepository imageRepository, AdsRepository adsRepository, AvatarRepository avatarRepository, UserProfileRepository userProfileRepository) {
         this.imageRepository = imageRepository;
         this.adsRepository = adsRepository;
         this.avatarRepository = avatarRepository;
+        this.userProfileRepository = userProfileRepository;
     }
 
     @Override
@@ -74,9 +79,9 @@ public class ImageServiceImpl implements ImageService {
 
 
     @Override
-    public byte[] getPhotoUser(Long id) {
-        Avatar avatar = avatarRepository.getReferenceById(id);
-        return avatar.getImage();
+    public byte[] getPhotoUser(Authentication authentication) {
+        Optional<UserProfile> userProfile = userProfileRepository.findByEmail(authentication.getName());
+        return userProfile.get().getAvatar().getImage();
     }
 
   /*  @Override

@@ -5,9 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
 import ru.skypro.homework.dto.UserDto;
-import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Avatar;
-import ru.skypro.homework.entity.Image;
 import ru.skypro.homework.entity.UserProfile;
 import ru.skypro.homework.mappers.UserMapper;
 
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
@@ -76,13 +73,22 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public Long updateUserAvatar(MultipartFile image,Long id) throws RuntimeException {
+    public UserDto updateUserAvatar(MultipartFile image, Authentication authentication) throws RuntimeException {
 
         Avatar entity = new Avatar();
         try {
             byte[] bytes = image.getBytes();
             entity.setImage(bytes);
-            Avatar avatar = avatarRepository.findAvatarById(id);
+            Optional<UserProfile> userProfileOld = userProfileRepository.findByEmail(authentication.getName());
+            userProfileOld.get().setAvatar(entity);
+            avatarRepository.save(entity);
+            return UserMapper.INSTANCE.dtoToUserDto(userProfileRepository.save(userProfileOld.get()));
+        } catch (IOException e) {
+            throw new RuntimeException("User not found");
+        }
+    }
+
+         /*   Avatar avatar = avatarRepository.findAvatarById(authentication.getName());
             avatar.setImage(bytes);
             avatarRepository.save(avatar);
         } catch (IOException e) {
@@ -91,6 +97,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         Avatar savedEntity = avatarRepository.saveAndFlush(entity);
         return savedEntity.getId();
     }
+
+          */
 
 
       /*  Avatar entity = new Avatar();
