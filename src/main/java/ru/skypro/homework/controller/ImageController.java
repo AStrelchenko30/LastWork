@@ -20,9 +20,17 @@ public class ImageController {
         return service.getPhoto(id);
     }
 
-    @GetMapping(value = "/avatar/{id}", produces = {MediaType.IMAGE_PNG_VALUE})
+
+    @GetMapping(value = "/avatar", produces = {MediaType.IMAGE_PNG_VALUE})
     public byte[] getAvatar(Authentication authentication) {
         return service.getPhotoUser(authentication);
     }
+
+   /* @GetMapping(value = "/avatar", produces = {MediaType.IMAGE_PNG_VALUE})
+    public byte[] getAvatar(Authentication authentication) {
+        return service.getPhotoUser(authentication);
+    }
+
+    */
 
 }

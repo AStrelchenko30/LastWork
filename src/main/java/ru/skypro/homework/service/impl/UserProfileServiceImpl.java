@@ -40,20 +40,20 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public UserDto updateUser(UserDto userProfileNew, Authentication authentication) {
-        Optional<UserProfile> userProfileOld=userProfileRepository.findByEmail(authentication.getName());
+        Optional<UserProfile> userProfileOld = userProfileRepository.findByEmail(authentication.getName());
         if (userProfileOld.isPresent()) {
             userProfileOld.get().setFirstName(userProfileNew.getFirstName());
             userProfileOld.get().setPhone(userProfileNew.getPhone());
             userProfileOld.get().setLastName(userProfileNew.getLastName());
             return UserMapper.INSTANCE.dtoToUserDto(userProfileRepository.save(userProfileOld.get()));
         }
-         throw new NotFoundException("User not found");
+        throw new NotFoundException("User not found");
     }
 
     @Override
     public UserDto findUser(Authentication authentication) {
-        Optional<UserProfile> userByEmail= userProfileRepository.findByEmail(authentication.getName());
-        if(userByEmail.isPresent()){
+        Optional<UserProfile> userByEmail = userProfileRepository.findByEmail(authentication.getName());
+        if (userByEmail.isPresent()) {
             return UserMapper.INSTANCE.dtoToUserDto(userByEmail.get());
         }
         throw new NotFoundException("User not found");
@@ -88,30 +88,4 @@ public class UserProfileServiceImpl implements UserProfileService {
         }
     }
 
-         /*   Avatar avatar = avatarRepository.findAvatarById(authentication.getName());
-            avatar.setImage(bytes);
-            avatarRepository.save(avatar);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Avatar savedEntity = avatarRepository.saveAndFlush(entity);
-        return savedEntity.getId();
-    }
-
-          */
-
-
-      /*  Avatar entity = new Avatar();
-        try {
-            byte[] bytes = image.getBytes();
-            entity.setImage(bytes);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        entity.setId(UUID.randomUUID().toString());
-        Avatar savedEntity = avatarRepository.saveAndFlush(entity);
-        return savedEntity.getId();
-    }
-
-       */
 }

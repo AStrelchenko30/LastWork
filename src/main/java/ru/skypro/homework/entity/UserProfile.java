@@ -29,7 +29,7 @@ public class UserProfile implements UserDetails {
     private String phone;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "avatar", referencedColumnName = "id")
+    @JoinColumn(name = "avatar_id", referencedColumnName = "id")
     private Avatar avatar;
     @OneToMany(mappedBy = "author")
     private Set<Ads> ads;

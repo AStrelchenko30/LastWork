@@ -10,8 +10,7 @@ import java.util.Objects;
 @Entity
 
 public class Avatar {
-    //@OneToOne
-    //private UserProfile userProfile;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

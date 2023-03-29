@@ -13,7 +13,9 @@ public interface ImageService {
 
     byte[] getPhoto(Long id);
 
-    byte[] getPhotoUser(Authentication authentication);
+   byte[] getPhotoUser(Authentication authentication);
+  // byte[] getPhotoUser(Long id);
+
 
     Long updateAdsImage(MultipartFile image, Long id) throws RuntimeException;
 }

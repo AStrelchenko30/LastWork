@@ -107,21 +107,6 @@ public class AdsServiceImpl implements AdsService, UtilWebSecurity {
         throw new ForbiddenException();
     }
 
- /*   public Ads updateAdsImage(Integer id, MultipartFile file) {
-        Ads oldAds = adsRepository.findById(id).orElseThrow(CommentNotFoundException::new);
-        if (Objects.equals(oldAds.getAuthor(), getUser().getId()) || getUser().getRoleEnum() == Role.ADMIN) {
-            try {
-                oldAds.setImage(file.getBytes());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            return oldAds;
-        }
-        throw new ForbiddenException();
-    }
-
-  */
-
     @Override
     public ResponseWrapperAds getAdsMeUsingGET(Authentication authentication) {
         ResponseWrapperAds responseWrapperAds = new ResponseWrapperAds();
