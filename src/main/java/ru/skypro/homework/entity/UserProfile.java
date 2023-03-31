@@ -28,7 +28,7 @@ public class UserProfile implements UserDetails {
     private String lastName;
     private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "avatar_id", referencedColumnName = "id")
     private Avatar avatar;
     @OneToMany(mappedBy = "author")

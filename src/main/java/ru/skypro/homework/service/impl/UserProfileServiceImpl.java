@@ -26,7 +26,6 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     public UserProfileServiceImpl(UserProfileRepository userProfileRepository, AvatarRepository avatarRepository) {
         this.userProfileRepository = userProfileRepository;
-
         this.avatarRepository = avatarRepository;
     }
 
