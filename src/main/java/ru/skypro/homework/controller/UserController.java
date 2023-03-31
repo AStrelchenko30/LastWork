@@ -52,18 +52,10 @@ public class UserController {
         return ResponseEntity.ok(userProfileService.updateUser(userProfile,authentication));
     }
 
-    /* @PostMapping(value = "/avatar/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Long> saveAvatarImage(@RequestParam MultipartFile image,@PathVariable (value = "id") Long id ){
-       return ResponseEntity.ok(userProfileService.updateUserAvatar(image, id));
-    }
-
-     */
-
-
     @Operation(summary = "updateUserAvatar")
-    @PostMapping(value = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<UserDto> updateUserAvatar(@RequestParam MultipartFile avatar, Authentication authentication) {
-        return ResponseEntity.ok(userProfileService.updateUserAvatar(avatar,authentication));
+    @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<UserDto> updateUserAvatar(@RequestParam MultipartFile image, Authentication authentication) {
+        return ResponseEntity.ok(userProfileService.updateUserAvatar(image,authentication));
     }
 }
 

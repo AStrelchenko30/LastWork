@@ -19,18 +19,4 @@ public class ImageController {
     public byte[] getImage(@PathVariable("id") Long id) {
         return service.getPhoto(id);
     }
-
-
-    @GetMapping(value = "/avatar", produces = {MediaType.IMAGE_PNG_VALUE})
-    public byte[] getAvatar(Authentication authentication) {
-        return service.getPhotoUser(authentication);
-    }
-
-   /* @GetMapping(value = "/avatar", produces = {MediaType.IMAGE_PNG_VALUE})
-    public byte[] getAvatar(Authentication authentication) {
-        return service.getPhotoUser(authentication);
-    }
-
-    */
-
 }
