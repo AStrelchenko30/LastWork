@@ -69,8 +69,9 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public byte[] getPhotoUser(Long id) {
-        Avatar avatar = avatarRepository.getReferenceById(id);
+    public byte[] getPhotoUser() {
+
+        Avatar avatar = avatarRepository.getReferenceById(avatarRepository.count());
         return avatar.getImage();
     }
 

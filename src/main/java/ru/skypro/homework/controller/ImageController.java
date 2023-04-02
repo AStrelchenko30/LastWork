@@ -21,8 +21,8 @@ public class ImageController {
     }
 
 
-    @GetMapping(value = "/avatar/{id}")
-    public byte[] getImageUser(@PathVariable("id") Long id) {
-        return service.getPhotoUser(id);
+    @GetMapping(value = "/avatar/")
+    public byte[] getImageUser() {
+        return service.getPhotoUser();
     }
 }

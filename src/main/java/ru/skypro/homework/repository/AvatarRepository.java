@@ -5,5 +5,5 @@ import ru.skypro.homework.entity.Ads;
 import ru.skypro.homework.entity.Avatar;
 
 public interface AvatarRepository extends JpaRepository<Avatar, Long> {
-    Avatar findAvatarById(Long id);
+  //  Avatar findAvatarById(Long id);
 }
