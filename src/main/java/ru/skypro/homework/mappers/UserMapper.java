@@ -12,7 +12,7 @@ public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     
-    @Mapping(target = "image", expression = "java(\"/me/image/\")")
+    @Mapping(target = "image", expression = "java(\"/avatar/\"+userProfile.getId())")
     @Mapping(target = "city", ignore = true)
     @Mapping(target = "regDate", ignore = true)
     @Mapping(target = "name", ignore = true)

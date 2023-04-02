@@ -69,10 +69,19 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    public byte[] getPhotoUser(Long id) {
+        Avatar avatar = avatarRepository.getReferenceById(id);
+        return avatar.getImage();
+    }
+
+
+   /* @Override
     public byte[] getPhotoUser(Authentication authentication) {
         Optional<UserProfile> userProfile = userProfileRepository.findByEmail(authentication.getName());
         return userProfile.get().getAvatar().getImage();
     }
+
+    */
 
     @Override
     public Long updateAdsImage(MultipartFile image, Long id) throws RuntimeException {

@@ -19,4 +19,10 @@ public class ImageController {
     public byte[] getImage(@PathVariable("id") Long id) {
         return service.getPhoto(id);
     }
+
+
+    @GetMapping(value = "/avatar/{id}")
+    public byte[] getImageUser(@PathVariable("id") Long id) {
+        return service.getPhotoUser(id);
+    }
 }
