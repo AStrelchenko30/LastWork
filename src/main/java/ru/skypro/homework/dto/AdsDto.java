@@ -2,7 +2,9 @@ package ru.skypro.homework.dto;
 
 import lombok.Data;
 
-
+/**
+ * Ads
+ */
 @Data
 public class AdsDto {
 

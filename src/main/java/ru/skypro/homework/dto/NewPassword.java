@@ -2,7 +2,9 @@ package ru.skypro.homework.dto;
 
 import lombok.Data;
 
-
+/**
+ * NewPassword
+ */
 @Data
 public class NewPassword {
 

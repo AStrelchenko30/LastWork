@@ -1,7 +1,9 @@
 package ru.skypro.homework.dto;
 
 import lombok.Data;
-
+/**
+ * RegisterReq
+ */
 @Data
 public class RegisterReq {
 

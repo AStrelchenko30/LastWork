@@ -4,7 +4,9 @@ import lombok.Data;
 
 
 import java.util.List;
-
+/**
+ * ResponseWrapperAds
+ */
 @Data
 public class ResponseWrapperAds {
 

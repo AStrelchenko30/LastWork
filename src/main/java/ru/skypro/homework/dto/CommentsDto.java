@@ -1,7 +1,9 @@
 package ru.skypro.homework.dto;
 
 import lombok.Data;
-
+/**
+ * AdsComment
+ */
 @Data
 public class CommentsDto {
 
