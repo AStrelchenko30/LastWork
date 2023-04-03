@@ -22,4 +22,4 @@
 # Исходные данные:
 https://github.com/skypro-backend/example-for-graduate-work.git
 # Фронтенд контейнер для Docker’а
-docker run --rm --name adsclientv16 -p3000:3000 adsclient:v16 http://localhost:3000
+docker run --rm --name adsclient -p3000:3000 adsclient:v16 http://localhost:3000
